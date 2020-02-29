@@ -12,16 +12,15 @@ var netdataDashboard = window.netdataDashboard || {};
 
 netdataDashboard.menu = {
     'system': {
-        title: 'System Overview',
+        title: '系统概观',
         icon: '<i class="fas fa-bookmark"></i>',
-        info: 'Overview of the key system metrics.'
+        info: '一眼掌握系统效能关键指标。'
     },
 
     'services': {
-        title: 'systemd Services',
+        title: '系统服务',
         icon: '<i class="fas fa-cogs"></i>',
-        info: 'Resources utilization of systemd services. netdata monitors all systemd services via CGROUPS ' +
-            '(the resources accounting used by containers). '
+        info: '系统服务的使用情况。netdata 以 CGROUPS 监视所有系统服务。'
     },
 
     'ap': {
@@ -45,16 +44,16 @@ netdataDashboard.menu = {
     },
 
     'net': {
-        title: 'Network Interfaces',
+        title: '网路介面',
         icon: '<i class="fas fa-sitemap"></i>',
-        info: 'Performance metrics for network interfaces.'
+        info: '网路介面的效能指标。'
     },
 
     'ip': {
-        title: 'Networking Stack',
+        title: '网路堆叠',
         icon: '<i class="fas fa-cloud"></i>',
         info: function (os) {
-            if (os === "linux")
+            if(os === "linux")
                 return 'Metrics for the networking stack of the system. These metrics are collected from <code>/proc/net/netstat</code>, apply to both IPv4 and IPv6 traffic and are related to operation of the kernel networking stack.';
             else
                 return 'Metrics for the networking stack of the system.';
@@ -62,9 +61,9 @@ netdataDashboard.menu = {
     },
 
     'ipv4': {
-        title: 'IPv4 Networking',
+        title: 'IPv4 网路',
         icon: '<i class="fas fa-cloud"></i>',
-        info: 'Metrics for the IPv4 stack of the system. ' +
+        info: 'IPv4 效能指标。' +
             '<a href="https://en.wikipedia.org/wiki/IPv4" target="_blank">Internet Protocol version 4 (IPv4)</a> is ' +
             'the fourth version of the Internet Protocol (IP). It is one of the core protocols of standards-based ' +
             'internetworking methods in the Internet. IPv4 is a connectionless protocol for use on packet-switched ' +
@@ -74,9 +73,9 @@ netdataDashboard.menu = {
     },
 
     'ipv6': {
-        title: 'IPv6 Networking',
+        title: 'IPv6 网路',
         icon: '<i class="fas fa-cloud"></i>',
-        info: 'Metrics for the IPv6 stack of the system. <a href="https://en.wikipedia.org/wiki/IPv6" target="_blank">Internet Protocol version 6 (IPv6)</a> is the most recent version of the Internet Protocol (IP), the communications protocol that provides an identification and location system for computers on networks and routes traffic across the Internet. IPv6 was developed by the Internet Engineering Task Force (IETF) to deal with the long-anticipated problem of IPv4 address exhaustion. IPv6 is intended to replace IPv4.'
+        info: 'IPv6 效能指标。 <a href="https://en.wikipedia.org/wiki/IPv6" target="_blank">Internet Protocol version 6 (IPv6)</a> is the most recent version of the Internet Protocol (IP), the communications protocol that provides an identification and location system for computers on networks and routes traffic across the Internet. IPv6 was developed by the Internet Engineering Task Force (IETF) to deal with the long-anticipated problem of IPv4 address exhaustion. IPv6 is intended to replace IPv4.'
     },
 
     'sctp': {
@@ -92,39 +91,39 @@ netdataDashboard.menu = {
     },
 
     'netfilter': {
-        title: 'Firewall (netfilter)',
+        title: '防火墙 (netfilter)',
         icon: '<i class="fas fa-shield-alt"></i>',
-        info: 'Performance metrics of the netfilter components.'
+        info: 'netfilter 元件效能指标。'
     },
 
     'ipfw': {
-        title: 'Firewall (ipfw)',
+        title: '防火墙 (ipfw)',
         icon: '<i class="fas fa-shield-alt"></i>',
         info: 'Counters and memory usage for the ipfw rules.'
     },
 
     'cpu': {
-        title: 'CPUs',
+        title: 'CPU',
         icon: '<i class="fas fa-bolt"></i>',
-        info: 'Detailed information for each CPU of the system. A summary of the system for all CPUs can be found at the <a href="#menu_system">System Overview</a> section.'
+        info: '系统中每一个 CPU 的详细资讯。全部 CPU 的总量可以到 <a href="#menu_system">系统概观</a> 区段查看。'
     },
 
     'mem': {
-        title: 'Memory',
+        title: '记忆体',
         icon: '<i class="fas fa-microchip"></i>',
-        info: 'Detailed information about the memory management of the system.'
+        info: '系统记忆体管理的详细资讯。'
     },
 
     'disk': {
-        title: 'Disks',
+        title: '磁碟',
         icon: '<i class="fas fa-hdd"></i>',
-        info: 'Charts with performance information for all the system disks. Special care has been given to present disk performance metrics in a way compatible with <code>iostat -x</code>. netdata by default prevents rendering performance charts for individual partitions and unmounted virtual disks. Disabled charts can still be enabled by configuring the relative settings in the netdata configuration file.'
+        info: '系统中所有磁碟效能资讯图表。特别留意：这是以 <code>iostat -x</code> 所取得的效能数据做为呈现。在预设情况下，netdata 不会显示单一分割区与未挂载的虚拟磁碟效能图表。若仍想要显示，可以修改 netdata 设定档中的相关设定。'
     },
 
     'sensors': {
-        title: 'Sensors',
+        title: '感测器',
         icon: '<i class="fas fa-leaf"></i>',
-        info: 'Readings of the configured system sensors.'
+        info: '系统已配置相关感测器的读数'
     },
 
     'ipmi': {
@@ -140,89 +139,77 @@ netdataDashboard.menu = {
     },
 
     'nfsd': {
-        title: 'NFS Server',
+        title: 'NFS 伺服器',
         icon: '<i class="fas fa-folder-open"></i>',
         info: 'Performance metrics of the Network File Server. NFS is a distributed file system protocol, allowing a user on a client computer to access files over a network, much like local storage is accessed. NFS, like many other protocols, builds on the Open Network Computing Remote Procedure Call (ONC RPC) system. The NFS is an open standard defined in Request for Comments (RFC).'
     },
 
     'nfs': {
-        title: 'NFS Client',
+        title: 'NFS 客户端',
         icon: '<i class="fas fa-folder-open"></i>',
-        info: 'Performance metrics of the NFS operations of this system, acting as an NFS client.'
+        info: '显示本机做为 NFS 客户端的效能指标。'
     },
 
     'zfs': {
-        title: 'ZFS filesystem',
+        title: 'ZFS 档案系统',
         icon: '<i class="fas fa-folder-open"></i>',
-        info: 'Performance metrics of the ZFS filesystem. The following charts visualize all metrics reported by <a href="https://github.com/zfsonlinux/zfs/blob/master/cmd/arcstat/arcstat" target="_blank">arcstat.py</a> and <a href="https://github.com/zfsonlinux/zfs/blob/master/cmd/arc_summary/arc_summary3" target="_blank">arc_summary.py</a>.'
+        info: 'ZFS 档案系统的效能指标。以下图表呈现来自 <a href="https://github.com/zfsonlinux/zfs/blob/master/cmd/arcstat/arcstat.py" target="_blank">arcstat.py</a> 与 <a href="https://github.com/zfsonlinux/zfs/blob/master/cmd/arc_summary/arc_summary.py" target="_blank">arc_summary.py</a> 的效能数据。'
     },
 
     'btrfs': {
-        title: 'BTRFS filesystem',
+        title: 'BTRFS 档案系统',
         icon: '<i class="fas fa-folder-open"></i>',
-        info: 'Disk space metrics for the BTRFS filesystem.'
+        info: 'BTRFS 档案系统磁碟空间使用指标。'
     },
 
     'apps': {
-        title: 'Applications',
+        title: '应用程序',
         icon: '<i class="fas fa-heartbeat"></i>',
         info: 'Per application statistics are collected using netdata\'s <code>apps.plugin</code>. This plugin walks through all processes and aggregates statistics for applications of interest, defined in <code>/etc/netdata/apps_groups.conf</code>, which can be edited by running <code>$ /etc/netdata/edit-config apps_groups.conf</code> (the default is <a href="https://github.com/netdata/netdata/blob/master/collectors/apps.plugin/apps_groups.conf" target="_blank">here</a>). The plugin internally builds a process tree (much like <code>ps fax</code> does), and groups processes together (evaluating both child and parent processes) so that the result is always a chart with a predefined set of dimensions (of course, only application groups found running are reported). The reported values are compatible with <code>top</code>, although the netdata plugin counts also the resources of exited children (unlike <code>top</code> which shows only the resources of the currently running processes). So for processes like shell scripts, the reported values include the resources used by the commands these scripts run within each timeframe.',
         height: 1.5
     },
 
     'users': {
-        title: 'Users',
+        title: '使用者',
         icon: '<i class="fas fa-user"></i>',
         info: 'Per user statistics are collected using netdata\'s <code>apps.plugin</code>. This plugin walks through all processes and aggregates statistics per user. The reported values are compatible with <code>top</code>, although the netdata plugin counts also the resources of exited children (unlike <code>top</code> which shows only the resources of the currently running processes). So for processes like shell scripts, the reported values include the resources used by the commands these scripts run within each timeframe.',
         height: 1.5
     },
 
     'groups': {
-        title: 'User Groups',
+        title: '使用者群组',
         icon: '<i class="fas fa-users"></i>',
         info: 'Per user group statistics are collected using netdata\'s <code>apps.plugin</code>. This plugin walks through all processes and aggregates statistics per user group. The reported values are compatible with <code>top</code>, although the netdata plugin counts also the resources of exited children (unlike <code>top</code> which shows only the resources of the currently running processes). So for processes like shell scripts, the reported values include the resources used by the commands these scripts run within each timeframe.',
         height: 1.5
     },
 
     'netdata': {
-        title: 'Netdata Monitoring',
+        title: 'Netdata 监视',
         icon: '<i class="fas fa-chart-bar"></i>',
-        info: 'Performance metrics for the operation of netdata itself and its plugins.'
+        info: 'netdata 本身与外挂程式的效能数据。'
     },
 
     'example': {
-        title: 'Example Charts',
-        info: 'Example charts, demonstrating the external plugin architecture.'
+        title: '范例图表',
+        info: '范例图表，展示外挂程式的架构之用。'
     },
 
     'cgroup': {
         title: '',
         icon: '<i class="fas fa-th"></i>',
-        info: 'Container resource utilization metrics. Netdata reads this information from <b>cgroups</b> (abbreviated from <b>control groups</b>), a Linux kernel feature that limits and accounts resource usage (CPU, memory, disk I/O, network, etc.) of a collection of processes. <b>cgroups</b> together with <b>namespaces</b> (that offer isolation between processes) provide what we usually call: <b>containers</b>.'
+        info: '容器资源使用率指标。netdata 从 <b>cgroups</b> (<b>control groups</b> 的缩写) 中读取这些资讯，cgroups 是 Linux 核心的一个功能，做限制与计算程序集中的资源使用率 (CPU、记忆体、磁碟 I/O、网路...等等)。<b>cgroups</b> 与 <b>namespaces</b> (程序之间的隔离) 结合提供了我们所说的：<b>容器</b>。'
     },
 
     'cgqemu': {
         title: '',
         icon: '<i class="fas fa-th-large"></i>',
-        info: 'QEMU virtual machine resource utilization metrics. QEMU (short for Quick Emulator) is a free and open-source hosted hypervisor that performs hardware virtualization.'
+        info: 'QEMU 虚拟机资源使用率效能指标。QEMU (Quick Emulator) 是自由与开源的虚拟机器平台，提供硬体虚拟化功能。'
     },
 
     'fping': {
         title: 'fping',
         icon: '<i class="fas fa-exchange-alt"></i>',
         info: 'Network latency statistics, via <b>fping</b>. <b>fping</b> is a program to send ICMP echo probes to network hosts, similar to <code>ping</code>, but much better performing when pinging multiple hosts. fping versions after 3.15 can be directly used as netdata plugins.'
-    },
-
-    'gearman': {
-        title: 'Gearman',
-        icon: '<i class="fas fa-tasks"></i>',
-        info: 'Gearman is a job server that allows you to do work in parallel, to load balance processing, and to call functions between languages.'
-    },
-
-    'ioping': {
-        title: 'ioping',
-        icon: '<i class="fas fa-exchange-alt"></i>',
-        info: 'Disk latency statistics, via <b>ioping</b>. <b>ioping</b> is a program to read/write data probes from/to a disk.'
     },
 
     'httpcheck': {
@@ -273,12 +260,6 @@ netdataDashboard.menu = {
         info: 'Performance metrics for <b>RetroShare</b>. RetroShare is open source software for encrypted filesharing, serverless email, instant messaging, online chat, and BBS, based on a friend-to-friend network built on GNU Privacy Guard (GPG).'
     },
 
-    'riakkv': {
-        title: 'Riak KV',
-        icon: '<i class="fas fa-database"></i>',
-        info: 'Metrics for <b>Riak KV</b>, the distributed key-value store.'
-    },
-
     'ipfs': {
         title: 'IPFS',
         icon: '<i class="fas fa-folder-open"></i>',
@@ -289,13 +270,6 @@ netdataDashboard.menu = {
         title: 'PHP-FPM',
         icon: '<i class="fas fa-eye"></i>',
         info: 'Performance metrics for <b>PHP-FPM</b>, an alternative FastCGI implementation for PHP.'
-    },
-
-    'pihole': {
-        title: 'Pi-hole',
-        icon: '<i class="fas fa-ban"></i>',
-        info: 'Metrics for <a href="https://pi-hole.net/" target="_blank">Pi-hole</a>, a black hole for Internet advertisements.' +
-            ' The metrics returned by Pi-Hole API is all from the last 24 hours.'
     },
 
     'portcheck': {
@@ -343,7 +317,7 @@ netdataDashboard.menu = {
     'web_log': {
         title: undefined,
         icon: '<i class="fas fa-file-alt"></i>',
-        info: 'Information extracted from a server log file. <code>web_log</code> plugin incrementally parses the server log file to provide, in real-time, a break down of key server performance metrics. For web servers, an extended log file format may optionally be used (for <code>nginx</code> and <code>apache</code>) offering timing information and bandwidth for both requests and responses. <code>web_log</code> plugin may also be configured to provide a break down of requests per URL pattern (check <a href="https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/web_log/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
+        info: 'Information extracted from a server log file. <code>web_log</code> plugin incrementally parses the server log file to provide, in real-time, a break down of key server performance metrics. For web servers, an extended log file format may optionally be used (for <code>nginx</code> and <code>apache</code>) offering timing information and bandwidth for both requests and responses. <code>web_log</code> plugin may also be configured to provide a break down of requests per URL pattern (check <a href="https://github.com/netdata/netdata/blob/master/conf.d/python.d/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
     },
 
     'named': {
@@ -468,84 +442,6 @@ netdataDashboard.menu = {
         title: 'Power Supply',
         icon: '<i class="fas fa-battery-half"></i>',
         info: 'Statistics for the various system power supplies. Data collected from <a href="https://www.kernel.org/doc/Documentation/power/power_supply_class.txt">Linux power supply class</a>.'
-    },
-
-    'xenstat': {
-        title: 'Xen Node',
-        icon: '<i class="fas fa-server"></i>',
-        info: 'General statistics for the Xen node. Data collected using <b>xenstat</b> library</a>.'
-    },
-
-    'xendomain': {
-        title: '',
-        icon: '<i class="fas fa-th-large"></i>',
-        info: 'Xen domain resource utilization metrics. Netdata reads this information using <b>xenstat</b> library which gives access to the resource usage information (CPU, memory, disk I/O, network) for a virtual machine.'
-    },
-
-    'wmi': {
-        title: 'wmi',
-        icon: '<i class="fas fa-server"></i>',
-        info: undefined
-    },
-
-    'perf': {
-        title: 'Perf Counters',
-        icon: '<i class="fas fa-tachometer-alt"></i>',
-        info: 'Performance Monitoring Counters (PMC). Data collected using <b>perf_event_open()</b> system call which utilises Hardware Performance Monitoring Units (PMU).'
-    },
-
-    'vsphere': {
-        title: 'vSphere',
-        icon: '<i class="fas fa-server"></i>',
-        info: 'Performance statistics for ESXI hosts and virtual machines. Data collected from <a href="https://www.vmware.com/products/vcenter-server.html">VMware vCenter Server</a> using <code><a href="https://github.com/vmware/govmomi"> govmomi</a></code>  library.'
-    },
-
-    'vcsa': {
-        title: 'VCSA',
-        icon: '<i class="fas fa-server"></i>',
-        info: 'vCenter Server Appliance health statistics. Data collected from <a href="https://vmware.github.io/vsphere-automation-sdk-rest/vsphere/index.html#SVC_com.vmware.appliance.health">Health API</a>.'
-    },
-
-    'zookeeper': {
-        title: 'Zookeeper',
-        icon: '<i class="fas fa-database"></i>',
-        info: 'Provides health statistics for <b><a href="https://zookeeper.apache.org/">Zookeeper</a></b> server. Data collected through the command port using <code><a href="https://zookeeper.apache.org/doc/r3.5.5/zookeeperAdmin.html#sc_zkCommands">mntr</a></code> command.'
-    },
-
-    'hdfs': {
-        title: 'HDFS',
-        icon: '<i class="fas fa-folder-open"></i>',
-        info: 'Provides <b><a href="https://hadoop.apache.org/docs/r3.2.0/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html">Hadoop Distributed File System</a></b> performance statistics. Module collects metrics over <code>Java Management Extensions</code> through the web interface of an <code>HDFS</code> daemon.'
-    },
-
-    'am2320': {
-        title: 'AM2320 Sensor',
-        icon: '<i class="fas fa-thermometer-half"></i>',
-        info: 'Readings from the external AM2320 Sensor.'
-    },
-
-    'scaleio': {
-        title: 'ScaleIO',
-        icon: '<i class="fas fa-database"></i>',
-        info: 'Performance and health statistics for various ScaleIO components. Data collected via VxFlex OS Gateway REST API.'
-    },
-
-    'squidlog': {
-        title: 'Squid log',
-        icon: '<i class="fas fa-file-alt"></i>',
-        info: undefined
-    },
-
-    'cockroachdb': {
-        title: 'CockroachDB',
-        icon: '<i class="fas fa-database"></i>',
-        info: 'Performance and health statistics for various <code>CockroachDB</code> components.'
-    },
-
-    'ebpf': {
-        title: 'eBPF',
-        icon: '<i class="fas fa-heartbeat"></i>',
-        info: 'Monitor system calls, internal functtions, bytes read, bytes written and errors using <code>eBPF</code>.'
     }
 };
 
@@ -558,12 +454,12 @@ netdataDashboard.menu = {
 // information about the submenus
 netdataDashboard.submenu = {
     'web_log.squid_bandwidth': {
-        title: 'bandwidth',
+        title: '频宽',
         info: 'Bandwidth of responses (<code>sent</code>) by squid. This chart may present unusual spikes, since the bandwidth is accounted at the time the log line is saved by the server, even if the time needed to serve it spans across a longer duration. We suggest to use QoS (e.g. <a href="http://firehol.org/#fireqos" target="_blank">FireQOS</a>) for accurate accounting of the server bandwidth.'
     },
 
     'web_log.squid_responses': {
-        title: 'responses',
+        title: '回应',
         info: 'Information related to the responses sent by squid.'
     },
 
@@ -582,7 +478,7 @@ netdataDashboard.submenu = {
     },
 
     'web_log.squid_squid_cache': {
-        title: 'cache',
+        title: '快取',
         info: 'Performance metrics for the performance of the squid cache.'
     },
 
@@ -600,7 +496,7 @@ netdataDashboard.submenu = {
     },
 
     'web_log.urls': {
-        info: 'Number of requests for each <code>URL pattern</code> defined in <a href="https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/web_log/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>. This chart counts all requests matching the URL patterns defined, independently of the web server response codes (i.e. both successful and unsuccessful).'
+        info: 'Number of requests for each <code>URL pattern</code> defined in <a href="https://github.com/netdata/netdata/blob/master/conf.d/python.d/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>. This chart counts all requests matching the URL patterns defined, independently of the web server response codes (i.e. both successful and unsuccessful).'
     },
 
     'web_log.clients': {
@@ -613,7 +509,7 @@ netdataDashboard.submenu = {
 
     'mem.ksm': {
         title: 'deduper (ksm)',
-        info: 'Kernel Same-page Merging (KSM) performance monitoring, read from several files in <code>/sys/kernel/mm/ksm/</code>. KSM is a memory-saving de-duplication feature in the Linux kernel (since version 2.6.32). The KSM daemon ksmd periodically scans those areas of user memory which have been registered with it, looking for pages of identical content which can be replaced by a single write-protected page (which is automatically copied if a process later wants to update its content). KSM was originally developed for use with KVM (where it was known as Kernel Shared Memory), to fit more virtual machines into physical memory, by sharing the data common between them.  But it can be useful to any application which generates many instances of the same data.'
+        info: 'Kernel Same-page Merging (KSM) 效能监视，经由读取 <code>/sys/kernel/mm/ksm/</code> 下的档案而来。KSM 是在 Linux 核心 (自 2.6.32 版起) 内含的一种节省记忆体使用率重复资料删除功能。)。 KSM 服务程序 ksmd 会定期扫描记忆体区域，寻找正有资料要更新进来且相同资料存在的分页。KSM 最初是从 KVM 专案开发中而来，利用这种共用相同资料的机制，即可以让更多的虚拟机器放到记忆体中。另外，对许多会产生同样内容的应用程序来说，这个功能是相当有效益的。'
     },
 
     'mem.hugepages': {
@@ -621,7 +517,7 @@ netdataDashboard.submenu = {
     },
 
     'mem.numa': {
-        info: 'Non-Uniform Memory Access (NUMA) is a hierarchical memory design the memory access time is dependent on locality. Under NUMA, a processor can access its own local memory faster than non-local memory (memory local to another processor or memory shared between processors). The individual metrics are described in the <a href="https://www.kernel.org/doc/Documentation/numastat.txt" target="_blank">Linux kernel documentation</a>.'
+        info: 'Non-Uniform Memory Access (NUMA) 是一种记忆体存取分隔设计，在 NUMA 之下，一个处理器存取自己管理的的记忆体，将比非自己管理的记忆体 (另一个处理器所管理的记忆体或是共用记忆体) 具有更快速的效能。在 <a href="https://www.kernel.org/doc/Documentation/numastat.txt" target="_blank">Linux 核心文件</a> 中有详细说明这些指标。'
     },
 
     'ip.ecn': {
@@ -630,7 +526,7 @@ netdataDashboard.submenu = {
 
     'netfilter.conntrack': {
         title: 'connection tracker',
-        info: 'Netfilter Connection Tracker performance metrics. The connection tracker keeps track of all connections of the machine, inbound and outbound. It works by keeping a database with all open connections, tracking network and address translation and connection expectations.'
+        info: 'Netfilter connection tracker 效能指标。Connection tracker 会追踪这台主机上所有的连接，包括流入与流出。工作原理是将所有开启的连接都储存到资料库，以追踪网路、位址转换与连接目标。'
     },
 
     'netfilter.nfacct': {
@@ -728,135 +624,110 @@ var cgroupMemLimitIsSet = 0;
 netdataDashboard.context = {
     'system.cpu': {
         info: function (os) {
-            void (os);
-            return 'Total CPU utilization (all cores). 100% here means there is no CPU idle time at all. You can get per core usage at the <a href="#menu_cpu">CPUs</a> section and per application usage at the <a href="#menu_apps">Applications Monitoring</a> section.'
-                + netdataDashboard.sparkline('<br/>Keep an eye on <b>iowait</b> ', 'system.cpu', 'iowait', '%', '. If it is constantly high, your disks are a bottleneck and they slow your system down.')
-                + netdataDashboard.sparkline('<br/>An important metric worth monitoring, is <b>softirq</b> ', 'system.cpu', 'softirq', '%', '. A constantly high percentage of softirq may indicate network driver issues.');
+            void(os);
+            return 'CPU 使用率总表 (全部核心)。 当数值为 100% 时，表示您的 CPU 非常忙碌没有闲置空间。您可以在 <a href="#menu_cpu">CPU</a> 区段及以及 <a href="#menu_apps">应用程序</a> 区段深入了解每个核心与应用程序的使用情况。'
+                + netdataDashboard.sparkline('<br/>请特别关注 <b>iowait</b> ', 'system.cpu', 'iowait', '%', '，如果它一直处于较高的情况，这表示您的磁碟是效能瓶颈，您的系统效能会明显降低。')
+                + netdataDashboard.sparkline('<br/>另一个重要的指标是 <b>softirq</b> ', 'system.cpu', 'softirq', '%', '，若这个数值持续在较高的情况，很有可能是您的网路驱动部份有问题。');
         },
         valueRange: "[0, 100]"
     },
 
     'system.load': {
-        info: 'Current system load, i.e. the number of processes using CPU or waiting for system resources (usually CPU and disk). The 3 metrics refer to 1, 5 and 15 minute averages. The system calculates this once every 5 seconds. For more information check <a href="https://en.wikipedia.org/wiki/Load_(computing)" target="_blank">this wikipedia article</a>',
+        info: '目前系统负载，也就是指 CPU 使用情况或正在等待系统资源 (通常是 CPU 与磁碟)。这三个指标分别是 1、5、15 分钟。系统每 5 秒会计算一次。更多的资讯可以参阅 <a href="https://en.wikipedia.org/wiki/Load_(computing)" target="_blank">维基百科</a> 说明。',
         height: 0.7
-    },
-
-    'system.cpu_pressure': {
-        info: '<a href="https://www.kernel.org/doc/html/latest/accounting/psi.html">Pressure Stall Information</a> ' +
-            'identifies and quantifies the disruptions caused by resource contentions. ' +
-            'The "some" line indicates the share of time in which at least <b>some</b> tasks are stalled on CPU. ' +
-            'The ratios (in %) are tracked as recent trends over 10-, 60-, and 300-second windows.'
-    },
-
-    'system.memory_some_pressure': {
-        info: '<a href="https://www.kernel.org/doc/html/latest/accounting/psi.html">Pressure Stall Information</a> ' +
-            'identifies and quantifies the disruptions caused by resource contentions. ' +
-            'The "some" line indicates the share of time in which at least <b>some</b> tasks are stalled on memory. ' +
-            'The "full" line indicates the share of time in which <b>all non-idle</b> tasks are stalled on memory simultaneously. ' +
-            'In this state actual CPU cycles are going to waste, and a workload that spends extended time in this state is considered to be thrashing. ' +
-            'The ratios (in %) are tracked as recent trends over 10-, 60-, and 300-second windows.'
-    },
-
-    'system.io_some_pressure': {
-        info: '<a href="https://www.kernel.org/doc/html/latest/accounting/psi.html">Pressure Stall Information</a> ' +
-            'identifies and quantifies the disruptions caused by resource contentions. ' +
-            'The "some" line indicates the share of time in which at least <b>some</b> tasks are stalled on I/O. ' +
-            'The "full" line indicates the share of time in which <b>all non-idle</b> tasks are stalled on I/O simultaneously. ' +
-            'In this state actual CPU cycles are going to waste, and a workload that spends extended time in this state is considered to be thrashing. ' +
-            'The ratios (in %) are tracked as recent trends over 10-, 60-, and 300-second windows.'
     },
 
     'system.io': {
         info: function (os) {
-            var s = 'Total Disk I/O, for all physical disks. You can get detailed information about each disk at the <a href="#menu_disk">Disks</a> section and per application Disk usage at the <a href="#menu_apps">Applications Monitoring</a> section.';
+            var s = '磁碟 I/O 总计, 包含所有的实体磁碟。您可以在 <a href="#menu_disk">磁碟</a> 区段查看每一个磁碟的详细资讯，也可以在 <a href="#menu_apps">应用程序</a> 区段了解每一支应用程序对于磁碟的使用情况。';
 
             if (os === 'linux')
-                return s + ' Physical are all the disks that are listed in <code>/sys/block</code>, but do not exist in <code>/sys/devices/virtual/block</code>.';
+                return s + ' 实体磁碟指的是 <code>/sys/block</code> 中有列出，但是没有在 <code>/sys/devices/virtual/block</code> 的所有磁碟。';
             else
                 return s;
         }
     },
 
     'system.pgpgio': {
-        info: 'Memory paged from/to disk. This is usually the total disk I/O of the system.'
+        info: '从记忆体分页到磁碟的 I/O。通常是这个系统所有磁碟的总 I/O。'
     },
 
     'system.swapio': {
-        info: 'Total Swap I/O. (netdata measures both <code>in</code> and <code>out</code>. If either of the metrics <code>in</code> or <code>out</code> is not shown in the chart, the reason is that the metric is zero. - you can change the page settings to always render all the available dimensions on all charts).'
+        info: '所有的 Swap I/O. (netdata 会合并显示 <code>输入</code> 与 <code>输出</code>。如果图表中没有任何数值，则表示为 0。 - 您可以修改这一页的设定，让图表显示固定的维度。'
     },
 
     'system.pgfaults': {
-        info: 'Total page faults. <b>Major page faults</b> indicates that the system is using its swap. You can find which applications use the swap at the <a href="#menu_apps">Applications Monitoring</a> section.'
+        info: '所有的 Page 错误. <b>Major page faults</b> indicates that the system is using its swap. You can find which applications use the swap at the <a href="#menu_apps">Applications Monitoring</a> section.'
     },
 
     'system.entropy': {
         colors: '#CC22AA',
-        info: '<a href="https://en.wikipedia.org/wiki/Entropy_(computing)" target="_blank">Entropy</a>, is a pool of random numbers (<a href="https://en.wikipedia.org/wiki//dev/random" target="_blank">/dev/random</a>) that is mainly used in cryptography. If the pool of entropy gets empty, processes requiring random numbers may run a lot slower (it depends on the interface each program uses), waiting for the pool to be replenished. Ideally a system with high entropy demands should have a hardware device for that purpose (TPM is one such device). There are also several software-only options you may install, like <code>haveged</code>, although these are generally useful only in servers.'
+        info: '<a href="https://en.wikipedia.org/wiki/Entropy_(computing)" target="_blank">熵 (Entropy)</a>，主要是用在密码学的乱数集区 (<a href="https://en.wikipedia.org/wiki//dev/random" target="_blank">/dev/random</a>)。如果熵的集区为空，需要乱数的程序可能会导致执行变慢 (这取决于每个程序使用的介面)，等待集区补充。在理想情况下，有高度熵需求的系统应该要具备专用的硬体装置 (例如 TPM 装置)。您也可以安装纯软体的方案，例如 <code>haveged</code>，通常这些方案只会使用在伺服器上。'
     },
 
     'system.forks': {
         colors: '#5555DD',
-        info: 'Number of new processes created.'
+        info: '建立新程序的数量。'
     },
 
     'system.intr': {
         colors: '#DD5555',
-        info: 'Total number of CPU interrupts. Check <code>system.interrupts</code> that gives more detail about each interrupt and also the <a href="#menu_cpu">CPUs</a> section where interrupts are analyzed per CPU core.'
+        info: 'CPU 中断的总数。透过检查 <code>system.interrupts</code>，得知每一个中断的细节资讯。在 <a href="#menu_cpu">CPU</a> 区段提供每一个 CPU 核心的中断情形。'
     },
 
     'system.interrupts': {
-        info: 'CPU interrupts in detail. At the <a href="#menu_cpu">CPUs</a> section, interrupts are analyzed per CPU core.'
+        info: 'CPU 中断的细节。在 <a href="#menu_cpu">CPU</a> 区段中，依据每个 CPU 核心分析中断。'
     },
 
     'system.softirqs': {
-        info: 'CPU softirqs in detail. At the <a href="#menu_cpu">CPUs</a> section, softirqs are analyzed per CPU core.'
+        info: 'CPU softirqs 的细节。在 <a href="#menu_cpu">CPU</a> 区段中，依据每个 CPU 核心分析 softirqs。'
     },
 
     'system.processes': {
-        info: 'System processes. <b>Running</b> are the processes in the CPU. <b>Blocked</b> are processes that are willing to enter the CPU, but they cannot, e.g. because they wait for disk activity.'
+        info: '系统程序。<b>running</b> 显示正在 CPU 中的程序。<b>Blocked</b> 显示目前被挡下无法进入 CPU 执行的程序，例如：正在等待磁碟完成动作，才能继续。'
     },
 
     'system.active_processes': {
-        info: 'All system processes.'
+        info: '所有的系统程序。'
     },
 
     'system.ctxt': {
-        info: '<a href="https://en.wikipedia.org/wiki/Context_switch" target="_blank">Context Switches</a>, is the switching of the CPU from one process, task or thread to another. If there are many processes or threads willing to execute and very few CPU cores available to handle them, the system is making more context switching to balance the CPU resources among them. The whole process is computationally intensive. The more the context switches, the slower the system gets.'
+        info: '<a href="https://en.wikipedia.org/wiki/Context_switch" target="_blank">Context Switches</a>，指 CPU 从一个程序、工作或是执行绪切换到另一个程序、工作或是执行绪。如果有许多程序或执行绪需要执行，但可以使用的 CPU 核心很少，即表示系统将会进行更多的 context switching 用来平衡它们所使用的 CPU 资源。这个过程需要大量的运算，因此 context switches 越多，整个系统就会越慢。'
     },
 
     'system.idlejitter': {
-        info: 'Idle jitter is calculated by netdata. A thread is spawned that requests to sleep for a few microseconds. When the system wakes it up, it measures how many microseconds have passed. The difference between the requested and the actual duration of the sleep, is the <b>idle jitter</b>. This number is useful in real-time environments, where CPU jitter can affect the quality of the service (like VoIP media gateways).'
+        info: 'Idle jitter 是由 netdata 计算而得。当一个执行绪要求睡眠 (Sleep) 时，需要几个微秒的时间。当系统要唤醒它时，会量测它用了多少个微秒的时间。要求睡眠与实际睡眠时间的差异就是 <b>idle jitter</b>。这个数字在即时的环境中非常有用，因为 CPU jitter 将会影响服务的品质 (例如 VoIP media gateways)。'
     },
 
     'system.net': {
         info: function (os) {
-            var s = 'Total bandwidth of all physical network interfaces. This does not include <code>lo</code>, VPNs, network bridges, IFB devices, bond interfaces, etc. Only the bandwidth of physical network interfaces is aggregated.';
+            var s = '所有实体网路介面的总频宽。不包含 <code>lo</code>、VPN、网路桥接、IFB 装置、介面聚合 (Bond).. 等。将合并显示实体网路介面的频宽使用情况。';
 
             if (os === 'linux')
-                return s + ' Physical are all the network interfaces that are listed in <code>/proc/net/dev</code>, but do not exist in <code>/sys/devices/virtual/net</code>.';
+                return s + ' 实体网路介面是指在 <code>/proc/net/dev</code> 有列出，但不在 <code>/sys/devices/virtual/net</code> 里。';
             else
                 return s;
         }
     },
 
     'system.ip': {
-        info: 'Total IP traffic in the system.'
+        info: 'IP 总流量。'
     },
 
     'system.ipv4': {
-        info: 'Total IPv4 Traffic.'
+        info: 'IPv4 总流量。'
     },
 
     'system.ipv6': {
-        info: 'Total IPv6 Traffic.'
+        info: 'IPv6 总流量。'
     },
 
     'system.ram': {
-        info: 'System Random Access Memory (i.e. physical memory) usage.'
+        info: '系统随机存取记忆体 (也就是实体记忆体) 使用情况。'
     },
 
     'system.swap': {
-        info: 'System swap memory usage. Swap space is used when the amount of physical memory (RAM) is full. When the system needs more memory resources and the RAM is full, inactive pages in memory are moved to the swap space (usually a disk, a disk partition or a file).'
+        info: '系统交换空间 (Swap) 记忆体使用情况。Swap 空间会在实体记忆体 (RAM) 已满的情况下使用。当系统记忆体已满但还需要使用更多记忆体情况下，系统记忆体中的比较没有异动的 Page 将会被移动到 Swap 空间 (通常是磁碟、磁碟分割区或是档案)。'
     },
 
     // ------------------------------------------------------------------------
@@ -895,7 +766,7 @@ netdataDashboard.context = {
     'mem.ksm_ratios': {
         heads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-gauge-max-value="100"'
                     + ' data-chart-library="gauge"'
@@ -911,47 +782,21 @@ netdataDashboard.context = {
         ]
     },
 
-    'mem.zram_usage': {
-        info: 'ZRAM total RAM usage metrics. ZRAM uses some memory to store metadata about stored memory pages, thus introducing an overhead which is proportional to disk size. It excludes same-element-filled-pages since no memory is allocated for them.'
-    },
-
-    'mem.zram_savings': {
-        info: 'Displays original and compressed memory data sizes.'
-    },
-
-    'mem.zram_ratio': {
-        heads: [
-            netdataDashboard.gaugeChart('Compression Ratio', '12%', 'ratio', '#0099CC')
-        ],
-        info: 'Compression ratio, calculated as <code>100 * original_size / compressed_size</code>. More means better compression and more RAM savings.'
-    },
-
-    'mem.zram_efficiency': {
-        heads: [
-            netdataDashboard.gaugeChart('Efficiency', '12%', 'percent', NETDATA.colors[0])
-        ],
-        commonMin: true,
-        commonMax: true,
-        valueRange: "[0, 100]",
-        info: 'Memory usage efficiency, calculated as <code>100 * compressed_size / total_mem_used</code>.'
-    },
-
-
     'mem.pgfaults': {
         info: 'A <a href="https://en.wikipedia.org/wiki/Page_fault" target="_blank">page fault</a> is a type of interrupt, called trap, raised by computer hardware when a running program accesses a memory page that is mapped into the virtual address space, but not actually loaded into main memory. If the page is loaded in memory at the time the fault is generated, but is not marked in the memory management unit as being loaded in memory, then it is called a <b>minor</b> or soft page fault. A <b>major</b> page fault is generated when the system needs to load the memory page from disk or swap memory.'
     },
 
     'mem.committed': {
         colors: NETDATA.colors[3],
-        info: 'Committed Memory, is the sum of all memory which has been allocated by processes.'
+        info: 'Committed 记忆体，是指程序分配到的所有记忆体总计。'
     },
 
     'mem.available': {
-        info: 'Available Memory is estimated by the kernel, as the amount of RAM that can be used by userspace processes, without causing swapping.'
+        info: '可用记忆体是由核心估算而来，也就是使用者空间程序可以使用的 RAM 总量，而不会造成交换 (Swap) 发生。'
     },
 
     'mem.writeback': {
-        info: '<b>Dirty</b> is the amount of memory waiting to be written to disk. <b>Writeback</b> is how much memory is actively being written to disk.'
+        info: '<b>Dirty</b> 是等待写入磁碟的记忆体量。<b>Writeback</b> 是指有多少记忆体内容被主动写入磁碟。'
     },
 
     'mem.kernel': {
@@ -1064,10 +909,6 @@ netdataDashboard.context = {
         height: 2.0
     },
 
-    'apps.uptime': {
-        info: 'Carried over process group uptime since the Netdata restart. The period of time within which at least one process in the group was running.'
-    },
-
     // ------------------------------------------------------------------------
     // USERS
 
@@ -1091,10 +932,6 @@ netdataDashboard.context = {
         height: 2.0
     },
 
-    'users.uptime': {
-        info: 'Carried over process group uptime since the Netdata restart. The period of time within which at least one process in the group was running.'
-    },
-
     // ------------------------------------------------------------------------
     // GROUPS
 
@@ -1107,7 +944,7 @@ netdataDashboard.context = {
     },
 
     'groups.vmem': {
-        info: 'Virtual memory allocated per user group since the Netdata restart. Please check <a href="https://github.com/netdata/netdata/tree/master/daemon#virtual-memory" target="_blank">this article</a> for more information.'
+        info: 'Virtual memory allocated per user group. Please check <a href="https://github.com/netdata/netdata/tree/master/daemon#virtual-memory" target="_blank">this article</a> for more information.'
     },
 
     'groups.preads': {
@@ -1118,17 +955,13 @@ netdataDashboard.context = {
         height: 2.0
     },
 
-    'groups.uptime': {
-        info: 'Carried over process group uptime. The period of time within which at least one process in the group was running.'
-    },
-
     // ------------------------------------------------------------------------
     // NETWORK QoS
 
     'tc.qos': {
         heads: [
             function (os, id) {
-                void (os);
+                void(os);
 
                 if (id.match(/.*-ifb$/))
                     return netdataDashboard.gaugeChart('Inbound', '12%', '', '#5555AA');
@@ -1144,42 +977,46 @@ netdataDashboard.context = {
     'net.net': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 if (id.match(/^cgroup_.*/)) {
                     var iface;
                     try {
                         iface = ' ' + id.substring(id.lastIndexOf('.net_') + 5, id.length);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         iface = '';
                     }
                     return netdataDashboard.gaugeChart('Received' + iface, '12%', 'received');
-                } else
+                }
+                else
                     return '';
             },
             function (os, id) {
-                void (os);
+                void(os);
                 if (id.match(/^cgroup_.*/)) {
                     var iface;
                     try {
                         iface = ' ' + id.substring(id.lastIndexOf('.net_') + 5, id.length);
-                    } catch (e) {
+                    }
+                    catch (e) {
                         iface = '';
                     }
                     return netdataDashboard.gaugeChart('Sent' + iface, '12%', 'sent');
-                } else
+                }
+                else
                     return '';
             }
         ],
         heads: [
             function (os, id) {
-                void (os);
+                void(os);
                 if (!id.match(/^cgroup_.*/))
                     return netdataDashboard.gaugeChart('Received', '12%', 'received');
                 else
                     return '';
             },
             function (os, id) {
-                void (os);
+                void(os);
                 if (!id.match(/^cgroup_.*/))
                     return netdataDashboard.gaugeChart('Sent', '12%', 'sent');
                 else
@@ -1210,7 +1047,7 @@ netdataDashboard.context = {
     'disk.util': {
         colors: '#FF5588',
         heads: [
-            netdataDashboard.gaugeChart('Utilization', '12%', '', '#FF5588')
+            netdataDashboard.gaugeChart('使用率', '12%', '', '#FF5588')
         ],
         info: 'Disk Utilization measures the amount of time the disk was busy with something. This is not related to its performance. 100% means that the system always had an outstanding operation on the disk. Keep in mind that depending on the underlying technology of the disk, 100% here may or may not be an indication of congestion.'
     },
@@ -1222,14 +1059,14 @@ netdataDashboard.context = {
 
     'disk.io': {
         heads: [
-            netdataDashboard.gaugeChart('Read', '12%', 'reads'),
-            netdataDashboard.gaugeChart('Write', '12%', 'writes')
+            netdataDashboard.gaugeChart('读取', '12%', 'reads'),
+            netdataDashboard.gaugeChart('写入', '12%', 'writes')
         ],
-        info: 'Amount of data transferred to and from disk.'
+        info: '磁碟传输资料的总计。'
     },
 
     'disk.ops': {
-        info: 'Completed disk I/O operations. Keep in mind the number of operations requested might be higher, since the system is able to merge adjacent to each other (see merged operations chart).'
+        info: '已完成的磁碟 I/O operations。提醒：实际上的 operations 数量可能更高，因为系统能够将它们互相合并 (详见 operations 图表)。'
     },
 
     'disk.qops': {
@@ -1250,15 +1087,15 @@ netdataDashboard.context = {
     },
     'disk.avgsz': {
         height: 0.5,
-        info: 'The average I/O operation size.'
+        info: 'I/O operation 平均大小。'
     },
     'disk.await': {
         height: 0.5,
-        info: 'The average time for I/O requests issued to the device to be served. This includes the time spent by the requests in queue and the time spent servicing them.'
+        info: '对要提供服务的设备发出 I/O 请求平均时间。这包含了请求在伫列中所花费的时间以及实际提供服务的时间。'
     },
 
     'disk.space': {
-        info: 'Disk space utilization. reserved for root is automatically reserved by the system to prevent the root user from getting out of space.'
+        info: '磁碟空间使用率。系统会自动为 root 使用者做保留，以防止 root 使用者使用过多。'
     },
     'disk.inodes': {
         info: 'inodes (or index nodes) are filesystem objects (e.g. files and directories). On many types of file system implementations, the maximum number of inodes is fixed at filesystem creation, limiting the maximum number of files the filesystem can hold. It is possible for a device to run out of inodes. When this happens, new files cannot be created on the device, even though there may be free space available.'
@@ -1306,43 +1143,6 @@ netdataDashboard.context = {
             '<li><strong>waited</strong>, the number of times that a request for a table lock could not be granted immediately and a wait was needed. If this is high and you have performance problems, you should first optimize your queries, and then either split your table or tables or use replication.</li>' +
             '</ul>'
     },
-
-    'mysql.innodb_deadlocks': {
-        info: 'A deadlock happens when two or more transactions mutually hold and request for locks, creating a cycle of dependencies. For more information about <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-deadlocks-handling.html" target="_blank">how to minimize and handle deadlocks</a>.'
-    },
-
-    'mysql.galera_cluster_status': {
-        info:
-            '<code>-1</code>: unknown, ' +
-            '<code>0</code>: primary (primary group configuration, quorum present), ' +
-            '<code>1</code>: non-primary (non-primary group configuration, quorum lost), ' +
-            '<code>2</code>: disconnected(not connected to group, retrying).'
-    },
-
-    'mysql.galera_cluster_state': {
-        info:
-            '<code>0</code>: undefined, ' +
-            '<code>1</code>: joining, ' +
-            '<code>2</code>: donor/desynced, ' +
-            '<code>3</code>: joined, ' +
-            '<code>4</code>: synced.'
-    },
-
-    'mysql.galera_cluster_weight': {
-        info: 'The value is counted as a sum of <code>pc.weight</code> of the nodes in the current Primary Component.'
-    },
-
-    'mysql.galera_connected': {
-        info: '<code>0</code> means that the node has not yet connected to any of the cluster components. ' +
-            'This may be due to misconfiguration.'
-    },
-
-    'mysql.open_transactions': {
-        info: 'The number of locally running transactions which have been registered inside the wsrep provider. ' +
-            'This means transactions which have made operations which have caused write set population to happen. ' +
-            'Transactions which are read only are not counted.'
-    },
-
 
     // ------------------------------------------------------------------------
     // POSTGRESQL
@@ -1402,14 +1202,6 @@ netdataDashboard.context = {
             '</ul>' +
             'For more information see <a href="https://www.postgresql.org/docs/current/static/warm-standby.html#STREAMING-REPLICATION-SLOTS" target="_blank">Replication Slots</a>.'
     },
-    'postgres.backend_usage': {
-        info: 'Connections usage against maximum connections allowed, as defined in the <i>max_connections</i> setting.<ul>' +
-            '<li><strong>available:</strong> maximum new connections allowed.</li>' +
-            '<li><strong>used:</strong> connections currently in use.</li>' +
-            '</ul>' +
-            'Assuming non-superuser accounts are being used to connect to Postgres (so <i>superuser_reserved_connections</i> are subtracted from <i>max_connections</i>).<br/>' +
-            'For more information see <a href="https://www.postgresql.org/docs/current/runtime-config-connection.html" target="_blank">Connections and Authentication</a>.'
-    },
 
 
     // ------------------------------------------------------------------------
@@ -1439,7 +1231,7 @@ netdataDashboard.context = {
     'apache.workers': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="busy"'
                     + ' data-append-options="percentage"'
@@ -1500,7 +1292,7 @@ netdataDashboard.context = {
     'lighttpd.workers': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="busy"'
                     + ' data-append-options="percentage"'
@@ -1591,7 +1383,7 @@ netdataDashboard.context = {
         info: 'Number of (connected) RetroShare friends.',
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="peers_connected"'
                     + ' data-append-options="friends"'
@@ -1631,7 +1423,7 @@ netdataDashboard.context = {
         valueRange: "[0, null]",
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 cgroupCPULimitIsSet = 1;
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="used"'
@@ -1653,7 +1445,7 @@ netdataDashboard.context = {
     'cgroup.cpu': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 if (cgroupCPULimitIsSet === 0) {
                     return '<div data-netdata="' + id + '"'
                         + ' data-chart-library="gauge"'
@@ -1666,7 +1458,8 @@ netdataDashboard.context = {
                         + ' data-points="CHART_DURATION"'
                         + ' data-colors="' + NETDATA.colors[4] + '"'
                         + ' role="application"></div>';
-                } else
+                }
+                else
                     return '';
             }
         ]
@@ -1675,7 +1468,7 @@ netdataDashboard.context = {
     'cgroup.mem_usage_limit': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 cgroupMemLimitIsSet = 1;
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="used"'
@@ -1698,7 +1491,7 @@ netdataDashboard.context = {
     'cgroup.mem_usage': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 if (cgroupMemLimitIsSet === 0) {
                     return '<div data-netdata="' + id + '"'
                         + ' data-chart-library="gauge"'
@@ -1711,7 +1504,8 @@ netdataDashboard.context = {
                         + ' data-points="CHART_DURATION"'
                         + ' data-colors="' + NETDATA.colors[1] + '"'
                         + ' role="application"></div>';
-                } else
+                }
+                else
                     return '';
             }
         ]
@@ -1720,7 +1514,7 @@ netdataDashboard.context = {
     'cgroup.throttle_io': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="read"'
                     + ' data-chart-library="gauge"'
@@ -1735,7 +1529,7 @@ netdataDashboard.context = {
                     + ' role="application"></div>';
             },
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="write"'
                     + ' data-chart-library="gauge"'
@@ -1872,10 +1666,10 @@ netdataDashboard.context = {
     // web_log
 
     'web_log.response_statuses': {
-        info: 'Web server responses by type. <code>success</code> includes <b>1xx</b>, <b>2xx</b>, <b>304</b> and <b>401</b>, <code>error</code> includes <b>5xx</b>, <code>redirect</code> includes <b>3xx</b> except <b>304</b>, <code>bad</code> includes <b>4xx</b> except <b>401</b>, <code>other</code> are all the other responses.',
+        info: 'Web server responses by type. <code>success</code> includes <b>1xx</b>, <b>2xx</b> and <b>304</b>, <code>error</code> includes <b>5xx</b>, <code>redirect</code> includes <b>3xx</b> except <b>304</b>, <code>bad</code> includes <b>4xx</b>, <code>other</code> are all the other responses.',
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="success"'
                     + ' data-chart-library="gauge"'
@@ -1893,7 +1687,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="redirect"'
                     + ' data-chart-library="gauge"'
@@ -1911,7 +1705,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="bad"'
                     + ' data-chart-library="gauge"'
@@ -1929,7 +1723,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="error"'
                     + ' data-chart-library="gauge"'
@@ -1962,7 +1756,7 @@ netdataDashboard.context = {
     'web_log.response_time': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="avg"'
                     + ' data-chart-library="gauge"'
@@ -1993,7 +1787,7 @@ netdataDashboard.context = {
     },
 
     'web_log.clients_all': {
-        info: 'Unique client IPs accessing the web server since the last restart of netdata. This plugin keeps in memory all the unique IPs that have accessed the web server. On very busy web servers (several millions of unique IPs) you may want to disable this chart (check <a href="https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/web_log/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
+        info: 'Unique client IPs accessing the web server since the last restart of netdata. This plugin keeps in memory all the unique IPs that have accessed the web server. On very busy web servers (several millions of unique IPs) you may want to disable this chart (check <a href="https://github.com/netdata/netdata/blob/master/conf.d/python.d/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
     },
 
     // ------------------------------------------------------------------------
@@ -2008,7 +1802,7 @@ netdataDashboard.context = {
             '<code>other</code> are all the other responses.',
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="success"'
                     + ' data-chart-library="gauge"'
@@ -2026,7 +1820,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="redirect"'
                     + ' data-chart-library="gauge"'
@@ -2044,7 +1838,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="bad"'
                     + ' data-chart-library="gauge"'
@@ -2062,7 +1856,7 @@ netdataDashboard.context = {
             },
 
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="error"'
                     + ' data-chart-library="gauge"'
@@ -2097,7 +1891,7 @@ netdataDashboard.context = {
     'web_log.squid_duration': {
         mainheads: [
             function (os, id) {
-                void (os);
+                void(os);
                 return '<div data-netdata="' + id + '"'
                     + ' data-dimensions="avg"'
                     + ' data-chart-library="gauge"'
@@ -2124,7 +1918,7 @@ netdataDashboard.context = {
     },
 
     'web_log.squid_clients_all': {
-        info: 'Unique client IPs accessing squid since the last restart of netdata. This plugin keeps in memory all the unique IPs that have accessed the server. On very busy squid servers (several millions of unique IPs) you may want to disable this chart (check <a href="https://github.com/netdata/netdata/blob/master/collectors/python.d.plugin/web_log/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
+        info: 'Unique client IPs accessing squid since the last restart of netdata. This plugin keeps in memory all the unique IPs that have accessed the server. On very busy squid servers (several millions of unique IPs) you may want to disable this chart (check <a href="https://github.com/netdata/netdata/blob/master/conf.d/python.d/web_log.conf" target="_blank"><code>/etc/netdata/python.d/web_log.conf</code></a>).'
     },
 
     'web_log.squid_transport_methods': {
@@ -2454,7 +2248,35 @@ netdataDashboard.context = {
     },
 
     'spigotmc.users': {
-        info: 'The number of currently connect users on the monitored Spigot server.'
+        info: 'THe number of currently connect users on the monitored Spigot server.'
+    },
+
+    'unbound.queries': {
+        info: 'Shows the number of queries being processed of each type. Note that <code>Recursive</code> queries are also accounted as cache misses.'
+    },
+
+    'unbound.reqlist': {
+        info: 'Shows various stats about Unbound\'s internal request list.'
+    },
+
+    'unbound.recursion': {
+        info: 'Average and median time to complete recursive name resolution.'
+    },
+
+    'unbound.cache': {
+        info: 'The number of items in each of the various caches.'
+    },
+
+    'unbound.threads.queries': {
+        height: 0.2
+    },
+
+    'unbound.threads.reqlist': {
+        height: 0.2
+    },
+
+    'unbound.threads.recursion': {
+        height: 0.2
     },
 
     'boinc.tasks': {
@@ -2494,33 +2316,33 @@ netdataDashboard.context = {
 
     'proxysql.pool_status': {
         info: 'The status of the backend servers. ' +
-            '<code>1=ONLINE</code> backend server is fully operational, ' +
-            '<code>2=SHUNNED</code> backend sever is temporarily taken out of use because of either too many connection errors in a time that was too short, or replication lag exceeded the allowed threshold, ' +
-            '<code>3=OFFLINE_SOFT</code> when a server is put into OFFLINE_SOFT mode, new incoming connections aren\'t accepted anymore, while the existing connections are kept until they became inactive. In other words, connections are kept in use until the current transaction is completed. This allows to gracefully detach a backend, ' +
-            '<code>4=OFFLINE_HARD</code> when a server is put into OFFLINE_HARD mode, the existing connections are dropped, while new incoming connections aren\'t accepted either. This is equivalent to deleting the server from a hostgroup, or temporarily taking it out of the hostgroup for maintenance work, ' +
-            '<code>-1</code> Unknown status.'
+        '<code>1=ONLINE</code> backend server is fully operational, ' +
+        '<code>2=SHUNNED</code> backend sever is temporarily taken out of use because of either too many connection errors in a time that was too short, or replication lag exceeded the allowed threshold, ' +
+        '<code>3=OFFLINE_SOFT</code> when a server is put into OFFLINE_SOFT mode, new incoming connections aren\'t accepted anymore, while the existing connections are kept until they became inactive. In other words, connections are kept in use until the current transaction is completed. This allows to gracefully detach a backend, ' +
+        '<code>4=OFFLINE_HARD</code> when a server is put into OFFLINE_HARD mode, the existing connections are dropped, while new incoming connections aren\'t accepted either. This is equivalent to deleting the server from a hostgroup, or temporarily taking it out of the hostgroup for maintenance work, ' +
+        '<code>-1</code> Unknown status.'
     },
 
     'proxysql.pool_net': {
         info: 'The amount of data sent to/received from the backend ' +
-            '(This does not include metadata (packets\' headers, OK/ERR packets, fields\' description, etc).'
+        '(This does not include metadata (packets\' headers, OK/ERR packets, fields\' description, etc).'
     },
 
     'proxysql.pool_overall_net': {
         info: 'The amount of data sent to/received from the all backends ' +
-            '(This does not include metadata (packets\' headers, OK/ERR packets, fields\' description, etc).'
+        '(This does not include metadata (packets\' headers, OK/ERR packets, fields\' description, etc).'
     },
 
     'proxysql.questions': {
         info: '<code>questions</code> total number of queries sent from frontends, ' +
-            '<code>slow_queries</code> number of queries that ran for longer than the threshold in milliseconds defined in global variable <code>mysql-long_query_time</code>. '
+        '<code>slow_queries</code> number of queries that ran for longer than the threshold in milliseconds defined in global variable <code>mysql-long_query_time</code>. '
     },
 
     'proxysql.connections': {
         info: '<code>aborted</code> number of frontend connections aborted due to invalid credential or max_connections reached, ' +
-            '<code>connected</code> number of frontend connections currently connected, ' +
-            '<code>created</code> number of frontend connections created, ' +
-            '<code>non_idle</code> number of frontend connections that are not currently idle. '
+        '<code>connected</code> number of frontend connections currently connected, ' +
+        '<code>created</code> number of frontend connections created, ' +
+        '<code>non_idle</code> number of frontend connections that are not currently idle. '
     },
 
     'proxysql.pool_latency': {
@@ -2572,500 +2394,7 @@ netdataDashboard.context = {
 
     'powersupply.voltage': {
         info: undefined
-    },
-
-    // ------------------------------------------------------------------------
-    // VMware vSphere
-
-    // Host specific
-    'vsphere.host_mem_usage_percentage': {
-        info: 'Percentage of used machine memory: <code>consumed</code> / <code>machine-memory-size</code>.'
-    },
-
-    'vsphere.host_mem_usage': {
-        info:
-            '<code>granted</code> is amount of machine memory that is mapped for a host, ' +
-            'it equals sum of all granted metrics for all powered-on virtual machines, plus machine memory for vSphere services on the host. ' +
-            '<code>consumed</code> is amount of machine memory used on the host, it includes memory used by the Service Console, the VMkernel, vSphere services, plus the total consumed metrics for all running virtual machines. ' +
-            '<code>consumed</code> = <code>total host memory</code> - <code>free host memory</code>.' +
-            '<code>active</code> is sum of all active metrics for all powered-on virtual machines plus vSphere services (such as COS, vpxa) on the host.' +
-            '<code>shared</code> is sum of all shared metrics for all powered-on virtual machines, plus amount for vSphere services on the host. ' +
-            '<code>sharedcommon</code> is amount of machine memory that is shared by all powered-on virtual machines and vSphere services on the host. ' +
-            '<code>shared</code> - <code>sharedcommon</code> = machine memory (host memory) savings (KB). ' +
-            'For details see <a href="https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.resmgmt.doc/GUID-BFDC988B-F53D-4E97-9793-A002445AFAE1.html">Measuring and Differentiating Types of Memory Usage</a> and ' +
-            '<a href="https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/memory_counters.html">Memory Counters</a> articles.'
-    },
-
-    'vsphere.host_mem_swap_rate': {
-        info:
-            'This statistic refers to VMkernel swapping and not to guest OS swapping. ' +
-            '<code>in</code> is sum of <code>swapinRate</code> values for all powered-on virtual machines on the host.' +
-            '<code>swapinRate</code> is rate at which VMKernel reads data into machine memory from the swap file. ' +
-            '<code>out</code> is sum of <code>swapoutRate</code> values for all powered-on virtual machines on the host.' +
-            '<code>swapoutRate</code> is rate at which VMkernel writes to the virtual machine’s swap file from machine memory.'
-    },
-
-    // VM specific
-    'vsphere.vm_mem_usage_percentage': {
-        info: 'Percentage of used virtual machine “physical” memory: <code>actvive</code> / <code>virtual machine configured size</code>.'
-    },
-
-    'vsphere.vm_mem_usage': {
-        info:
-            '<code>granted</code> is amount of guest “physical” memory that is mapped to machine memory, it includes <code>shared</code> memory amount. ' +
-            '<code>consumed</code> is amount of guest “physical” memory consumed by the virtual machine for guest memory, ' +
-            '<code>consumed</code> = <code>granted</code> - <code>memory saved due to memory sharing</code>. ' +
-            '<code>active</code> is amount of memory that is actively used, as estimated by VMkernel based on recently touched memory pages. ' +
-            '<code>shared</code> is amount of guest “physical” memory shared with other virtual machines (through the VMkernel’s transparent page-sharing mechanism, a RAM de-duplication technique). ' +
-            'For details see <a href="https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.resmgmt.doc/GUID-BFDC988B-F53D-4E97-9793-A002445AFAE1.html">Measuring and Differentiating Types of Memory Usage</a> and ' +
-            '<a href="https://www.vmware.com/support/developer/converter-sdk/conv51_apireference/memory_counters.html">Memory Counters</a> articles.'
-
-    },
-
-    'vsphere.vm_mem_swap_rate': {
-        info:
-            'This statistic refers to VMkernel swapping and not to guest OS swapping. ' +
-            '<code>in</code> is rate at which VMKernel reads data into machine memory from the swap file. ' +
-            '<code>out</code> is rate at which VMkernel writes to the virtual machine’s swap file from machine memory.'
-    },
-
-    'vsphere.vm_mem_swap': {
-        info:
-            'This statistic refers to VMkernel swapping and not to guest OS swapping. ' +
-            '<code>swapped</code> is amount of guest physical memory swapped out to the virtual machine\'s swap file by the VMkernel. ' +
-            'Swapped memory stays on disk until the virtual machine needs it.'
-    },
-
-    // Common
-    'vsphere.cpu_usage_total': {
-        info: 'Summary CPU usage statistics across all CPUs/cores.'
-    },
-
-    'vsphere.net_bandwidth_total': {
-        info: 'Summary receive/transmit statistics across all network interfaces.'
-    },
-
-    'vsphere.net_packets_total': {
-        info: 'Summary receive/transmit statistics across all network interfaces.'
-    },
-
-    'vsphere.net_errors_total': {
-        info: 'Summary receive/transmit statistics across all network interfaces.'
-    },
-
-    'vsphere.net_drops_total': {
-        info: 'Summary receive/transmit statistics across all network interfaces.'
-    },
-
-    'vsphere.disk_usage_total': {
-        info: 'Summary read/write statistics across all disks.'
-    },
-
-    'vsphere.disk_max_latency': {
-        info: '<code>latency</code> is highest latency value across all disks.'
-    },
-
-    'vsphere.overall_status': {
-        info: '<code>0</code> is unknown, <code>1</code> is OK, <code>2</code> is might have a problem, <code>3</code> is definitely has a problem.'
-    },
-
-    // ------------------------------------------------------------------------
-    // VCSA
-    'vcsa.system_health': {
-        info:
-            '<code>-1</code>: unknown; ' +
-            '<code>0</code>: all components are healthy; ' +
-            '<code>1</code>: one or more components might become overloaded soon; ' +
-            '<code>2</code>: one or more components in the appliance might be degraded; ' +
-            '<code>3</code>: one or more components might be in an unusable status and the appliance might become unresponsive soon; ' +
-            '<code>4</code>: no health data is available.'
-    },
-
-    'vcsa.components_health': {
-        info:
-            '<code>-1</code>: unknown; ' +
-            '<code>0</code>: healthy; ' +
-            '<code>1</code>: healthy, but may have some problems; ' +
-            '<code>2</code>: degraded, and may have serious problems; ' +
-            '<code>3</code>: unavailable, or will stop functioning soon; ' +
-            '<code>4</code>: no health data is available.'
-    },
-
-    'vcsa.software_updates_health': {
-        info:
-            '<code>softwarepackages</code> represents information on available software updates available in the remote vSphere Update Manager repository.<br>' +
-            '<code>-1</code>: unknown; ' +
-            '<code>0</code>: no updates available; ' +
-            '<code>2</code>: non-security updates are available; ' +
-            '<code>3</code>: security updates are available; ' +
-            '<code>4</code>: an error retrieving information on software updates.'
-    },
-
-    // ------------------------------------------------------------------------
-    // Zookeeper
-
-    'zookeeper.server_state': {
-        info:
-            '<code>0</code>: unknown, ' +
-            '<code>1</code>: leader, ' +
-            '<code>2</code>: follower, ' +
-            '<code>3</code>: observer, ' +
-            '<code>4</code>: standalone.'
-    },
-
-    // ------------------------------------------------------------------------
-    // Squidlog
-
-    'squidlog.requests': {
-        info: 'Total number of requests (log lines read). It includes <code>unmatched</code>.'
-    },
-
-    'squidlog.excluded_requests': {
-        info: '<code>unmatched</code> counts the lines in the log file that are not matched by the plugin parser (<a href="https://github.com/netdata/netdata/issues/new?title=squidlog%20reports%20unmatched%20lines&body=squidlog%20plugin%20reports%20unmatched%20lines.%0A%0AThis%20is%20my%20log:%0A%0A%60%60%60txt%0A%0Aplease%20paste%20your%20squid%20server%20log%20here%0A%0A%60%60%60" target="_blank">let us know</a> if you have any unmatched).'
-    },
-
-    'squidlog.type_requests': {
-        info: 'Requests by response type:<br>' +
-            '<ul>' +
-            ' <li><code>success</code> includes 1xx, 2xx, 0, 304, 401.</li>' +
-            ' <li><code>error</code> includes 5xx and 6xx.</li>' +
-            ' <li><code>redirect</code> includes 3xx except 304.</li>' +
-            ' <li><code>bad</code> includes 4xx except 401.</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.http_status_code_class_responses': {
-        info: 'The HTTP response status code classes. According to <a href="https://tools.ietf.org/html/rfc7231" target="_blank">rfc7231</a>:<br>' +
-            ' <li><code>1xx</code> is informational responses.</li>' +
-            ' <li><code>2xx</code> is successful responses.</li>' +
-            ' <li><code>3xx</code> is redirects.</li>' +
-            ' <li><code>4xx</code> is bad requests.</li>' +
-            ' <li><code>5xx</code> is internal server errors.</li>' +
-            ' </ul>' +
-            'Squid also uses <code>0</code> for a result code being unavailable, and <code>6xx</code> to signal an invalid header, a proxy error.'
-    },
-
-    'squidlog.http_status_code_responses': {
-        info: 'Number of responses for each http response status code individually.'
-    },
-
-    'squidlog.uniq_clients': {
-        info: 'Unique clients (requesting instances), within each data collection iteration. If data collection is <b>per second</b>, this chart shows <b>unique clients per second</b>.'
-    },
-
-    'squidlog.bandwidth': {
-        info: 'The size is the amount of data delivered to the clients. Mind that this does not constitute the net object size, as headers are also counted. ' +
-            'Also, failed requests may deliver an error page, the size of which is also logged here.'
-    },
-
-    'squidlog.response_time': {
-        info: 'The elapsed time considers how many milliseconds the transaction busied the cache. It differs in interpretation between TCP and UDP:' +
-            '<ul>' +
-            ' <li><code>TCP</code> this is basically the time from having received the request to when Squid finishes sending the last byte of the response.</li>' +
-            ' <li><code>UDP</code> this is the time between scheduling a reply and actually sending it.</li>' +
-            ' </ul>' +
-            'Please note that <b>the entries are logged after the reply finished being sent</b>, not during the lifetime of the transaction.'
-    },
-
-    'squidlog.cache_result_code_requests': {
-        info: 'The Squid result code is composed of several tags (separated by underscore characters) which describe the response sent to the client. ' +
-            'Check the <a href="https://wiki.squid-cache.org/SquidFaq/SquidLogs#Squid_result_codes">squid documentation</a> about them.'
-    },
-
-    'squidlog.cache_result_code_transport_tag_requests': {
-        info: 'These tags are always present and describe delivery method.<br>' +
-            '<ul>' +
-            ' <li><code>TCP</code> requests on the HTTP port (usually 3128).</li>' +
-            ' <li><code>UDP</code> requests on the ICP port (usually 3130) or HTCP port (usually 4128).</li>' +
-            ' <li><code>NONE</code> Squid delivered an unusual response or no response at all. Seen with cachemgr requests and errors, usually when the transaction fails before being classified into one of the above outcomes. Also seen with responses to CONNECT requests.</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.cache_result_code_handling_tag_requests': {
-        info: 'These tags are optional and describe why the particular handling was performed or where the request came from.<br>' +
-            '<ul>' +
-            ' <li><code>CF</code> at least one request in this transaction was collapsed. See <a href="http://www.squid-cache.org/Doc/config/collapsed_forwarding/" target="_blank">collapsed_forwarding</a>  for more details about request collapsing.</li>' +
-            ' <li><code>CLIENT</code> usually seen with client issued a "no-cache", or analogous cache control command along with the request. Thus, the cache has to validate the object.</li>' +
-            ' <li><code>IMS</code> the client sent a revalidation (conditional) request.</li>' +
-            ' <li><code>ASYNC</code> the request was generated internally by Squid. Usually this is background fetches for cache information exchanges, background revalidation from <i>stale-while-revalidate</i> cache controls, or ESI sub-objects being loaded.</li>' +
-            ' <li><code>SWAPFAIL</code> the object was believed to be in the cache, but could not be accessed. A new copy was requested from the server.</li>' +
-            ' <li><code>REFRESH</code> a revalidation (conditional) request was sent to the server.</li>' +
-            ' <li><code>SHARED</code> this request was combined with an existing transaction by collapsed forwarding.</li>' +
-            ' <li><code>REPLY</code> the HTTP reply from server or peer. Usually seen on <code>DENIED</code> due to <a href="http://www.squid-cache.org/Doc/config/http_reply_access/" target="_blank">http_reply_access</a> ACLs preventing delivery of servers response object to the client.</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.cache_code_object_tag_requests': {
-        info: 'These tags are optional and describe what type of object was produced.<br>' +
-            '<ul>' +
-            ' <li><code>NEGATIVE</code> only seen on HIT responses, indicating the response was a cached error response. e.g. <b>404 not found</b>.</li>' +
-            ' <li><code>STALE</code> the object was cached and served stale. This is usually caused by <i>stale-while-revalidate</i> or <i>stale-if-error</i> cache controls.</li>' +
-            ' <li><code>OFFLINE</code> the requested object was retrieved from the cache during <a href="http://www.squid-cache.org/Doc/config/offline_mode/" target="_blank">offline_mode</a>. The offline mode never validates any object.</li>' +
-            ' <li><code>INVALID</code> an invalid request was received. An error response was delivered indicating what the problem was.</li>' +
-            ' <li><code>FAILED</code> only seen on <code>REFRESH</code> to indicate the revalidation request failed. The response object may be the server provided network error or the stale object which was being revalidated depending on stale-if-error cache control.</li>' +
-            ' <li><code>MODIFIED</code> only seen on <code>REFRESH</code> responses to indicate revalidation produced a new modified object.</li>' +
-            ' <li><code>UNMODIFIED</code> only seen on <code>REFRESH</code> responses to indicate revalidation produced a 304 (Not Modified) status. The client gets either a full 200 (OK), a 304 (Not Modified), or (in theory) another response, depending on the client request and other details.</li>' +
-            ' <li><code>REDIRECT</code> Squid generated an HTTP redirect response to this request.</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.cache_code_load_source_tag_requests': {
-        info: 'These tags are optional and describe whether the response was loaded from cache, network, or otherwise.<br>' +
-            '<ul>' +
-            ' <li><code>HIT</code> the response object delivered was the local cache object.</li>' +
-            ' <li><code>MEM</code> the response object came from memory cache, avoiding disk accesses. Only seen on HIT responses.</li>' +
-            ' <li><code>MISS</code> the response object delivered was the network response object.</li>' +
-            ' <li><code>DENIED</code> the request was denied by access controls.</li>' +
-            ' <li><code>NOFETCH</code> an ICP specific type, indicating service is alive, but not to be used for this request.</li>' +
-            ' <li><code>TUNNEL</code> a binary tunnel was established for this transaction.</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.cache_code_error_tag_requests': {
-        info: 'These tags are optional and describe some error conditions which occured during response delivery.<br>' +
-            '<ul>' +
-            ' <li><code>ABORTED</code> the response was not completed due to the connection being aborted (usually by the client).</li>' +
-            ' <li><code>TIMEOUT</code> the response was not completed due to a connection timeout.</li>' +
-            ' <li><code>IGNORED</code> while refreshing a previously cached response A, Squid got a response B that was older than A (as determined by the Date header field). Squid ignored response B (and attempted to use A instead).</li>' +
-            ' </ul>'
-    },
-
-    'squidlog.http_method_requests': {
-        info: 'The request method to obtain an object. Please refer to section <a href="https://wiki.squid-cache.org/SquidFaq/SquidLogs#Request_methods">request-methods</a> for available methods and their description.'
-    },
-
-    'squidlog.hier_code_requests': {
-        info: 'A code that explains how the request was handled, e.g. by forwarding it to a peer, or going straight to the source. ' +
-            'Any hierarchy tag may be prefixed with <code>TIMEOUT_</code>, if the timeout occurs waiting for all ICP replies to return from the neighbours. The timeout is either dynamic, if the <a href="http://www.squid-cache.org/Doc/config/icp_query_timeout/" target="_blank">icp_query_timeout</a> was not set, or the time configured there has run up. ' +
-            'Refer to <a href="https://wiki.squid-cache.org/SquidFaq/SquidLogs#Hierarchy_Codes" target="_blank">Hierarchy Codes</a> for details on hierarchy codes.'
-    },
-
-    'squidlog.server_address_forwarded_requests': {
-        info: 'The IP address or hostname where the request (if a miss) was forwarded. For requests sent to origin servers, this is the origin server\'s IP address. ' +
-            'For requests sent to a neighbor cache, this is the neighbor\'s hostname. NOTE: older versions of Squid would put the origin server hostname here.'
-    },
-
-    'squidlog.mime_type_requests': {
-        info: 'The content type of the object as seen in the HTTP reply header. Please note that ICP exchanges usually don\'t have any content type.'
-    },
-
-    // ------------------------------------------------------------------------
-    // CockroachDB
-
-    'cockroachdb.process_cpu_time_combined_percentage': {
-        info: 'Current combined cpu utilization, calculated as <code>(user+system)/num of logical cpus</code>.'
-    },
-
-    'cockroachdb.host_disk_bandwidth': {
-        info: 'Summary disk bandwidth statistics across all system host disks.'
-    },
-
-    'cockroachdb.host_disk_operations': {
-        info: 'Summary disk operations statistics across all system host disks.'
-    },
-
-    'cockroachdb.host_disk_iops_in_progress': {
-        info: 'Summary disk iops in progress statistics across all system host disks.'
-    },
-
-    'cockroachdb.host_network_bandwidth': {
-        info: 'Summary network bandwidth statistics across all system host network interfaces.'
-    },
-
-    'cockroachdb.host_network_packets': {
-        info: 'Summary network packets statistics across all system host network interfaces.'
-    },
-
-    'cockroachdb.live_nodes': {
-        info: 'Will be <code>0</code> if this node is not itself live.'
-    },
-
-    'cockroachdb.total_storage_capacity': {
-        info: 'Entire disk capacity. It includes non-CR data, CR data, and empty space.'
-    },
-
-    'cockroachdb.storage_capacity_usability': {
-        info: '<code>usable</code> is sum of empty space and CR data, <code>unusable</code> is space used by non-CR data.'
-    },
-
-    'cockroachdb.storage_usable_capacity': {
-        info: 'Breakdown of <code>usable</code> space.'
-    },
-
-    'cockroachdb.storage_used_capacity_percentage': {
-        info: '<code>total</code> is % of <b>total</b> space used, <code>usable</code> is % of <b>usable</b> space used.'
-    },
-
-    'cockroachdb.sql_bandwidth': {
-        info: 'The total amount of SQL client network traffic.'
-    },
-
-    'cockroachdb.sql_errors': {
-        info: '<code>statement</code> is statements resulting in a planning or runtime error, ' +
-            '<code>transaction</code> is SQL transactions abort errors.'
-    },
-
-    'cockroachdb.sql_started_ddl_statements': {
-        info: 'The amount of <b>started</b> DDL (Data Definition Language) statements. ' +
-            'This type means database schema changes. ' +
-            'It includes <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>RENAME</code>, <code>TRUNCATE</code> and <code>COMMENT</code> statements.'
-    },
-
-    'cockroachdb.sql_executed_ddl_statements': {
-        info: 'The amount of <b>executed</b> DDL (Data Definition Language) statements. ' +
-            'This type means database schema changes. ' +
-            'It includes <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>RENAME</code>, <code>TRUNCATE</code> and <code>COMMENT</code> statements.'
-    },
-
-    'cockroachdb.sql_started_dml_statements': {
-        info: 'The amount of <b>started</b> DML (Data Manipulation Language) statements.'
-    },
-
-    'cockroachdb.sql_executed_dml_statements': {
-        info: 'The amount of <b>executed</b> DML (Data Manipulation Language) statements.'
-    },
-
-    'cockroachdb.sql_started_tcl_statements': {
-        info: 'The amount of <b>started</b> TCL (Transaction Control Language) statements.'
-    },
-
-    'cockroachdb.sql_executed_tcl_statements': {
-        info: 'The amount of <b>executed</b> TCL (Transaction Control Language) statements.'
-    },
-
-    'cockroachdb.live_bytes': {
-        info: 'The amount of live data used by both applications and the CockroachDB system.'
-    },
-
-    'cockroachdb.kv_transactions': {
-        info: 'KV transactions breakdown:<br>' +
-            '<ul>' +
-            ' <li><code>committed</code> committed KV transactions (including 1PC).</li>' +
-            ' <li><code>fast-path_committed</code> KV transaction on-phase commit attempts.</li>' +
-            ' <li><code>aborted</code> aborted KV transactions.</li>' +
-            ' </ul>'
-    },
-
-    'cockroachdb.kv_transaction_restarts': {
-        info: 'KV transactions restarts breakdown:<br>' +
-            '<ul>' +
-            ' <li><code>write too old</code> restarts due to a concurrent writer committing first.</li>' +
-            ' <li><code>write too old (multiple)</code> restarts due to multiple concurrent writers committing first.</li>' +
-            ' <li><code>forwarded timestamp (iso=serializable)</code> restarts due to a forwarded commit timestamp and isolation=SERIALIZABLE".</li>' +
-            ' <li><code>possible replay</code> restarts due to possible replays of command batches at the storage layer.</li>' +
-            ' <li><code>async consensus failure</code> restarts due to async consensus writes that failed to leave intents.</li>' +
-            ' <li><code>read within uncertainty interval</code> restarts due to reading a new value within the uncertainty interval.</li>' +
-            ' <li><code>aborted</code> restarts due to an abort by a concurrent transaction (usually due to deadlock).</li>' +
-            ' <li><code>push failure</code> restarts due to a transaction push failure.</li>' +
-            ' <li><code>unknown</code> restarts due to a unknown reasons.</li>' +
-            ' </ul>'
-    },
-
-    'cockroachdb.ranges': {
-        info: 'CockroachDB stores all user data (tables, indexes, etc.) and almost all system data in a giant sorted map of key-value pairs. ' +
-            'This keyspace is divided into "ranges", contiguous chunks of the keyspace, so that every key can always be found in a single range.'
-    },
-
-    'cockroachdb.ranges_replication_problem': {
-        info: 'Ranges with not optimal number of replicas:<br>' +
-            '<ul>' +
-            ' <li><code>unavailable</code> ranges with fewer live replicas than needed for quorum.</li>' +
-            ' <li><code>under replicated</code> ranges with fewer live replicas than the replication target.</li>' +
-            ' <li><code>over replicated</code> ranges with more live replicas than the replication target.</li>' +
-            ' </ul>'
-    },
-
-    'cockroachdb.replicas': {
-        info: 'CockroachDB replicates each range (3 times by default) and stores each replica on a different node.'
-    },
-
-    'cockroachdb.replicas_leaders': {
-        info: 'For each range, one of the replicas is the <code>leader</code> for write requests, <code>not leaseholders</code> is the number of Raft leaders whose range lease is held by another store.'
-    },
-
-    'cockroachdb.replicas_leaseholders': {
-        info: 'For each range, one of the replicas holds the "range lease". This replica, referred to as the <code>leaseholder</code>, is the one that receives and coordinates all read and write requests for the range.'
-    },
-
-    'cockroachdb.queue_processing_failures': {
-        info: 'Failed replicas breakdown by queue:<br>' +
-            '<ul>' +
-            ' <li><code>gc</code> replicas which failed processing in the GC queue.</li>' +
-            ' <li><code>replica gc</code> replicas which failed processing in the replica GC queue.</li>' +
-            ' <li><code>replication</code> replicas which failed processing in the replicate queue.</li>' +
-            ' <li><code>split</code> replicas which failed processing in the split queue.</li>' +
-            ' <li><code>consistency</code> replicas which failed processing in the consistency checker queue.</li>' +
-            ' <li><code>raft log</code> replicas which failed processing in the Raft log queue.</li>' +
-            ' <li><code>raft snapshot</code> replicas which failed processing in the Raft repair queue.</li>' +
-            ' <li><code>time series maintenance</code> replicas which failed processing in the time series maintenance queue.</li>' +
-            ' </ul>'
-    },
-
-    'cockroachdb.rebalancing_queries': {
-        info: 'Number of kv-level requests received per second by the store, averaged over a large time period as used in rebalancing decisions.'
-    },
-
-    'cockroachdb.rebalancing_writes': {
-        info: 'Number of keys written (i.e. applied by raft) per second to the store, averaged over a large time period as used in rebalancing decisions.'
-    },
-
-    'cockroachdb.slow_requests': {
-        info: 'Requests that have been stuck for a long time.'
-    },
-
-    'cockroachdb.timeseries_samples': {
-        info: 'The amount of metric samples written to disk.'
-    },
-
-    'cockroachdb.timeseries_write_errors': {
-        info: 'The amount of errors encountered while attempting to write metrics to disk.'
-    },
-
-    'cockroachdb.timeseries_write_bytes': {
-        info: 'Size of metric samples written to disk.'
-    },
-
-    // ------------------------------------------------------------------------
-    // eBPF
-
-    'ebpf.file_descriptor': {
-        info: 'File descriptor shows the number of calls for internal functions on Linux kernel. The open dimension is attached to the kernel internal function \'do_sys_open\', that is the common function called from open(2) and openat(2). The close dimension is attached to the function \'__close_fd\', that is called from system call close(2).'
-    },
-
-    'ebpf.file_error': {
-        info: 'File error shows the number of calls that returned an error when called per period.'
-    },
-
-    'ebpf.deleted_objects': {
-        info: 'Deleted objects monitors calls to the function \'vfs_unlink\'. This chart does not show all events to remove files from the file system, because file systems can create their own functions to remove files.'
-    },
-
-    'ebpf.io': {
-        info: 'IO shows the number of calls for functions \'vfs_read\' and \'vfs_write\' independent of the return to be success or fail. Like the chart \'deleted_objects\', case the file system uses other function to store data on disks, this chart will not show events for it.'
-    },
-
-    'ebpf.io_bytes': {
-        info: 'IO bytes shows the total of bytes read or written with success using the functions  \'vfs_read\' and \'vfs_write\'.'
-    },
-
-    'ebpf.io_error': {
-        info: 'IO error shows the number of calls for \'vfs_read\' and \'vfs_write\' that did not have success.'
-    },
-
-    'ebpf.process_thread': {
-        info: 'Process thread counts the number of times that the function \'do_fork\' was called to create a new task. Task is the common name used to define process and tasks inside the kernel, to identify the threads, Netdata also counts the number of calls for \'sys_clone\' that has the flag \'CLONE_THREAD\' set.'
-    },
-
-    'ebpf.exit': {
-        info: 'Exit count the number of calls for the functions responsible to close (\'do_exit\') and release(\'release_task\') tasks.'
-    },
-
-    'ebpf.task_error': {
-        info: 'Task error count the number of errors to create a new process or thread.'
-    },
-
-    'ebpf.process_status': {
-        info: 'This chart demonstrate the difference between the number of process created and the number of threads created per period(\'process\' dimension), it also shows the number of possible zombie process running on system.'
     }
 
+    // ------------------------------------------------------------------------
 };
