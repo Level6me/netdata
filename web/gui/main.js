@@ -71,7 +71,6 @@ var urlOptions = {
     alarm_unique_id: 0,
     alarm_id: 0,
     alarm_event_id: 0,
-    alarm_when: 0,
 
     hasProperty: function (property) {
         // console.log('checking property ' + property + ' of type ' + typeof(this[property]));
@@ -140,7 +139,7 @@ var urlOptions = {
             }
         }
 
-        var numeric = ['after', 'before', 'highlight_after', 'highlight_before', 'alarm_when'];
+        var numeric = ['after', 'before', 'highlight_after', 'highlight_before'];
         len = numeric.length;
         while (len--) {
             if (typeof urlOptions[numeric[len]] === 'string') {
@@ -152,22 +151,6 @@ var urlOptions = {
                     urlOptions[numeric[len]] = 0;
                 }
             }
-        }
-
-        if (urlOptions.alarm_when) {
-            // if alarm_when exists, create after/before params
-            // -/+ 2 minutes from the alarm, and reload the page
-            const alarmTime = new Date(urlOptions.alarm_when * 1000).valueOf();
-            const timeMarginMs = 120000; // 2 mins
-
-            const after = alarmTime - timeMarginMs;
-            const before = alarmTime + timeMarginMs;
-            const newHash = document.location.hash.replace(
-                /;alarm_when=[0-9]*/i,
-                ";after=" + after + ";before=" + before,
-            );
-            history.replaceState(null, '', newHash);
-            location.reload();
         }
 
         if (urlOptions.server !== null && urlOptions.server !== '') {
@@ -275,7 +258,7 @@ var urlOptions = {
 
             $('.highlight-tooltip').tooltip({
                 html: true,
-                delay: { show: 500, hide: 0 },
+                delay: {show: 500, hide: 0},
                 container: 'body'
             });
         } else {
@@ -512,9 +495,7 @@ function renderStreamedHosts(options) {
     }
 
     var master = options.hosts[0].hostname;
-    // We sort a clone of options.hosts, to keep the master as the first element
-    // for future calls.
-    var sorted = options.hosts.slice(0).sort(function (a, b) {
+    var sorted = options.hosts.sort(function (a, b) {
         if (a.hostname === master) {
             return -1;
         }
@@ -569,6 +550,10 @@ function renderStreamedHosts(options) {
 }
 
 function renderMachines(machinesArray) {
+    // let html = isSignedIn() 
+    //     ? `<div class="info-item">My nodes</div>`
+    //     : `<div class="info-item">My nodes</div>`;
+
     let html = `<div class="info-item">My nodes</div>`;
 
     if (machinesArray === null) {
@@ -605,20 +590,20 @@ function renderMachines(machinesArray) {
             const alternateUrlItems = (
                 `<div class="agent-alternate-urls agent-${machine.guid} collapsed">
                 ${machine.alternate_urls.reduce((str, url) => {
-                    if (url === maskedURL) {
-                        return str
-                    }
+                        if (url === maskedURL) {
+                            return str
+                        }
 
-                    return str + (
-                        `<div class="agent-item agent-item--alternate">
+                        return str + (
+                            `<div class="agent-item agent-item--alternate">
                                 <div></div>
                                 <a href="${url}" title="${url}">${truncateString(url, 64)}</a>
                                 <a href="#" onclick="deleteRegistryModalHandler('${machine.guid}', '${machine.name}', '${url}'); return false;">
                                     <i class="fas fa-trash" style="color: #777;"></i>
                                 </a>
                             </div>`
-                    )
-                },
+                        )
+                    },
                     ''
                 )}
                 </div>`
@@ -667,14 +652,14 @@ function renderMachines(machinesArray) {
         html += `<div class="info-item">Demo netdata nodes</div>`;
 
         const demoServers = [
-            { url: "//london.netdata.rocks/default.html", title: "UK - London (DigitalOcean.com)" },
-            { url: "//newyork.netdata.rocks/default.html", title: "US - New York (DigitalOcean.com)" },
-            { url: "//sanfrancisco.netdata.rocks/default.html", title: "US - San Francisco (DigitalOcean.com)" },
-            { url: "//atlanta.netdata.rocks/default.html", title: "US - Atlanta (CDN77.com)" },
-            { url: "//frankfurt.netdata.rocks/default.html", title: "Germany - Frankfurt (DigitalOcean.com)" },
-            { url: "//toronto.netdata.rocks/default.html", title: "Canada - Toronto (DigitalOcean.com)" },
-            { url: "//singapore.netdata.rocks/default.html", title: "Japan - Singapore (DigitalOcean.com)" },
-            { url: "//bangalore.netdata.rocks/default.html", title: "India - Bangalore (DigitalOcean.com)" },
+            {url: "//london.netdata.rocks/default.html", title: "UK - London (DigitalOcean.com)"},
+            {url: "//newyork.netdata.rocks/default.html", title: "US - New York (DigitalOcean.com)"},
+            {url: "//sanfrancisco.netdata.rocks/default.html", title: "US - San Francisco (DigitalOcean.com)"},
+            {url: "//atlanta.netdata.rocks/default.html", title: "US - Atlanta (CDN77.com)"},
+            {url: "//frankfurt.netdata.rocks/default.html", title: "Germany - Frankfurt (DigitalOcean.com)"},
+            {url: "//toronto.netdata.rocks/default.html", title: "Canada - Toronto (DigitalOcean.com)"},
+            {url: "//singapore.netdata.rocks/default.html", title: "Japan - Singapore (DigitalOcean.com)"},
+            {url: "//bangalore.netdata.rocks/default.html", title: "India - Bangalore (DigitalOcean.com)"},
 
         ]
 
@@ -707,9 +692,10 @@ function clearMyNetdataMenu() {
 }
 
 function errorMyNetdataMenu() {
-    setMyNetdataMenu(`<div class="agent-item" style="padding: 0 8px">
+    setMyNetdataMenu(`<div class="agent-item" style="white-space: nowrap">
         <i class="fas fa-exclamation-triangle" style="color: red"></i>
-        Cannot load known Netdata agents from Netdata Cloud! Please make sure you have the latest version of Netdata.
+        Cannot load known netdata agents from netdata.cloud!
+        <div></div>
     </div>`);
 }
 
@@ -720,17 +706,16 @@ function restrictMyNetdataMenu() {
     </div>`);
 }
 
-function openAuthenticatedUrl(url) {
-    if (isSignedIn()) {
-        window.open(url);
-    } else {
-        window.open(`${NETDATA.registry.cloudBaseURL}/account/sign-in-agent?id=${NETDATA.registry.machine_guid}&name=${encodeURIComponent(NETDATA.registry.hostname)}&origin=${encodeURIComponent(window.location.origin + "/")}&redirect_uri=${encodeURIComponent(window.location.origin + "/" + url)}`);
-    }
-}
-
 function renderMyNetdataMenu(machinesArray) {
     const el = document.getElementById('my-netdata-dropdown-content');
     el.classList.add(`theme-${netdataTheme}`);
+
+    if (!isSignedIn()) {
+        if (!NETDATA.registry.isRegistryEnabled()) {
+            restrictMyNetdataMenu();
+            return;
+        }
+    }
 
     if (machinesArray == registryAgents) {
         console.log("Rendering my-netdata menu from registry");
@@ -739,18 +724,6 @@ function renderMyNetdataMenu(machinesArray) {
     }
 
     let html = '';
-
-    if (!isSignedIn()) {
-        if (!NETDATA.registry.isRegistryEnabled()) {
-            html += (
-                `<div class="info-item" style="white-space: nowrap">
-                    <span>Please <a href="#" onclick="signInDidClick(event); return false">sign in to netdata.cloud</a> to view your nodes!</span>
-                    <div></div>
-                </div>
-                <hr />`
-            );
-        }
-    }
 
     if (isSignedIn()) {
         html += (
@@ -770,30 +743,15 @@ function renderMyNetdataMenu(machinesArray) {
         );
     }
 
-    // options.hosts = [
-    //     {
-    //         hostname: "streamed1",
-    //     },
-    //     {
-    //         hostname: "streamed2",
-    //     },
-    // ]
-
     if (options.hosts.length > 1) {
         html += `<div id="my-netdata-menu-streamed">${renderStreamedHosts(options)}</div><hr />`;
     }
 
-    if (isSignedIn() || NETDATA.registry.isRegistryEnabled()) {
-        html += `<div id="my-netdata-menu-machines">${renderMachines(machinesArray)}</div><hr />`;
-    }
+    html += `<div id="my-netdata-menu-machines">${renderMachines(machinesArray)}</div>`;
 
     if (!isSignedIn()) {
         html += (
-            `<div class="agent-item">
-                <i class="fas fa-tv"></i>
-                <a onClick="openAuthenticatedUrl('console.html');" target="_blank">Nodes<sup class="beta"> beta</sup></a>
-                <div></div>
-            </div>
+            `<hr />
             <div class="agent-item">
                 <i class="fas fa-cog""></i>
                 <a href="#" onclick="switchRegistryModalHandler(); return false;">Switch Identity</a>
@@ -807,11 +765,7 @@ function renderMyNetdataMenu(machinesArray) {
         )
     } else {
         html += (
-            `<div class="agent-item">
-                <i class="fas fa-tv"></i>
-                <a onclick="openAuthenticatedUrl('console.html');" target="_blank">Nodes<sup class="beta"> beta</sup></a>
-                <div></div>
-            </div>
+            `<hr />
             <div class="agent-item">
                 <i class="fas fa-sync"></i>
                 <a href="#" onclick="showSyncModal(); return false">Synchronize with netdata.cloud</a>
@@ -964,7 +918,7 @@ function gotoServerModalHandler(guid) {
 
     if (!isSignedIn()) {
         // When the registry is enabled, if the user's known URLs are not working
-        // we consult the registry to get additional URLs.
+        // we consult the registry to get additional URLs.  
         setTimeout(function () {
             if (gotoServerStop === false) {
                 document.getElementById('gotoServerResponse').innerHTML = '<b>Added all the known URLs for this machine.</b>';
@@ -1025,7 +979,7 @@ function notifyForSwitchRegistry() {
     }
 }
 
-var deleteRegistryGuid = null;
+var deleteRegistryGuid = null; 
 var deleteRegistryUrl = null;
 
 function deleteRegistryModalHandler(guid, name, url) {
@@ -1038,7 +992,7 @@ function deleteRegistryModalHandler(guid, name, url) {
     document.getElementById('deleteRegistryServerName2').innerHTML = name;
     document.getElementById('deleteRegistryServerURL').innerHTML = url;
     document.getElementById('deleteRegistryResponse').innerHTML = '';
-
+ 
     $('#deleteRegistryModal').modal('show');
 }
 
@@ -1061,7 +1015,7 @@ function notifyForDeleteRegistry() {
                         deleteRegistryUrl = null;
                         $('#deleteRegistryModal').modal('hide');
                         NETDATA.registry.init();
-                    });
+                    });    
                 });
         } else {
             NETDATA.registry.delete(deleteRegistryUrl, function (result) {
@@ -1072,7 +1026,7 @@ function notifyForDeleteRegistry() {
                 } else {
                     responseEl.innerHTML = "<b>Sorry, this command was rejected by the registry server!</b>";
                 }
-            });
+            });              
         }
     }
 }
@@ -1083,7 +1037,6 @@ var options = {
     data: null,
     hostname: 'netdata_server', // will be overwritten by the netdata server
     version: 'unknown',
-    release_channel: 'unknown',
     hosts: [],
 
     duration: 0, // the default duration of the charts
@@ -1153,7 +1106,7 @@ function scrollToId(hash) {
         var offset = $('#' + hash).offset();
         if (typeof offset !== 'undefined') {
             //console.log('scrolling to ' + hash + ' at ' + offset.top.toString());
-            $('html, body').animate({ scrollTop: offset.top - 30 }, 0);
+            $('html, body').animate({scrollTop: offset.top - 30}, 0);
         }
     }
 
@@ -1205,7 +1158,7 @@ var netdataDashboard = {
         }
 
         if (typeof this.sparklines_registry[key] === 'undefined') {
-            this.sparklines_registry[key] = { count: 1 };
+            this.sparklines_registry[key] = {count: 1};
         } else {
             this.sparklines_registry[key].count++;
         }
@@ -1482,7 +1435,7 @@ function headMain(os, charts, duration) {
             + ' data-dimensions="used"'
             + ' data-append-options="percentage"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Used Swap"'
+            + ' data-title="Swap"'
             + ' data-units="%"'
             + ' data-easypiechart-max-value="100"'
             + ' data-width="9%"'
@@ -1497,7 +1450,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.io"'
             + ' data-dimensions="in"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Disk Read"'
+            + ' data-title="磁碟读取"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1508,7 +1461,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.io"'
             + ' data-dimensions="out"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Disk Write"'
+            + ' data-title="磁碟写入"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1520,7 +1473,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.pgpgio"'
             + ' data-dimensions="in"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Disk Read"'
+            + ' data-title="磁碟读取"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1531,7 +1484,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.pgpgio"'
             + ' data-dimensions="out"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Disk Write"'
+            + ' data-title="磁碟写入"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1557,7 +1510,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.net"'
             + ' data-dimensions="received"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Net Inbound"'
+            + ' data-title="网路流入"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1568,7 +1521,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.net"'
             + ' data-dimensions="sent"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Net Outbound"'
+            + ' data-title="网路流出"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1580,7 +1533,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ip"'
             + ' data-dimensions="received"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IP Inbound"'
+            + ' data-title="IP 流入"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1591,7 +1544,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ip"'
             + ' data-dimensions="sent"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IP Outbound"'
+            + ' data-title="IP 流出"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1603,7 +1556,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ipv4"'
             + ' data-dimensions="received"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IPv4 Inbound"'
+            + ' data-title="IPv4 流入"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1614,7 +1567,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ipv4"'
             + ' data-dimensions="sent"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IPv4 Outbound"'
+            + ' data-title="IPv4 流出"'
             + ' data-width="11%"'
             + ' data-before="0"'
             + ' data-after="-' + duration.toString() + '"'
@@ -1626,7 +1579,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ipv6"'
             + ' data-dimensions="received"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IPv6 Inbound"'
+            + ' data-title="IPv6 流入"'
             + ' data-units="kbps"'
             + ' data-width="11%"'
             + ' data-before="0"'
@@ -1638,7 +1591,7 @@ function headMain(os, charts, duration) {
         head += '<div class="netdata-container" style="margin-right: 10px;" data-netdata="system.ipv6"'
             + ' data-dimensions="sent"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="IPv6 Outbound"'
+            + ' data-title="IPv6 流出"'
             + ' data-units="kbps"'
             + ' data-width="11%"'
             + ' data-before="0"'
@@ -1653,7 +1606,7 @@ function headMain(os, charts, duration) {
             + ' data-dimensions="used|buffers|active|wired"' // active and wired are FreeBSD stats
             + ' data-append-options="percentage"'
             + ' data-chart-library="easypiechart"'
-            + ' data-title="Used RAM"'
+            + ' data-title="记忆体"'
             + ' data-units="%"'
             + ' data-easypiechart-max-value="100"'
             + ' data-width="9%"'
@@ -1791,6 +1744,8 @@ function renderPage(menus, data) {
                 if (urlOptions.mode === 'print') {
                     chtml += '</div>';
                 }
+
+                // console.log('         \------- ' + chart.id + ' (' + chart.priority + '): ' + chart.context  + ' height: ' + menus[menu].submenus[submenu].height);
             }
 
             head += '</div>';
@@ -1802,26 +1757,9 @@ function renderPage(menus, data) {
         html += mhead + shtml + '</div></div><hr role="separator"/>';
     }
 
-    const isMemoryModeDbEngine = data.memory_mode === "dbengine";
-
-    sidebar += '<li class="" style="padding-top:15px;"><a href="https://docs.netdata.cloud/collectors/quickstart/" target="_blank"><i class="fas fa-plus"></i> Add more charts</a></li>';
-    sidebar += '<li class=""><a href="https://docs.netdata.cloud/health/quickstart/" target="_blank"><i class="fas fa-plus"></i> Add more alarms</a></li>';
-    sidebar += '<li class="" style="margin:20px;color:#666;"><small>Every ' +
-      ((data.update_every === 1) ? 'second' : data.update_every.toString() + ' seconds') + ', ' +
-      'Netdata collects <strong>' + data.dimensions_count.toLocaleString() + '</strong> metrics on ' +
-      data.hostname.toString() + ', presents them in <strong>' +
-      data.charts_count.toLocaleString() + '</strong> charts' +
-      (isMemoryModeDbEngine ? '' : ',') + // oxford comma
-      ' and monitors them with <strong>' +
-      data.alarms_count.toLocaleString() + '</strong> alarms.';
-
-    if (!isMemoryModeDbEngine) {
-        sidebar += '<br />&nbsp;<br />Get more history by ' +
-          '<a href="https://docs.netdata.cloud/docs/configuration-guide/#increase-the-metrics-retention-period" target=_blank>configuring Netdata\'s <strong>history</strong></a> or using the <a href="https://docs.netdata.cloud/database/engine/" target=_blank>DB engine.</a>';
-    }
-
-    sidebar += '<br/>&nbsp;<br/><strong>netdata</strong><br/>' + data.version.toString() + '</small></li>';
-
+    sidebar += '<li class="" style="padding-top:15px;"><a href="https://github.com/netdata/netdata/blob/master/docs/Add-more-charts-to-netdata.md#add-more-charts-to-netdata" target="_blank"><i class="fas fa-plus"></i> 加入更多图表</a></li>';
+    sidebar += '<li class=""><a href="https://github.com/netdata/netdata/tree/master/health#Health-monitoring" target="_blank"><i class="fas fa-plus"></i> 加入更多警报</a></li>';
+    sidebar += '<li class="" style="margin:20px;color:#666;"><small>netdata 运作于 <b>' + data.hostname.toString() + '</b>, 每 ' + ((data.update_every === 1) ? '秒' : data.update_every.toString() + ' 秒') + ' 搜集 <b>' + data.dimensions_count.toLocaleString() + '</b> 项指标，提供 <b>' + data.charts_count.toLocaleString() + '</b> 张图表以及监视 <b>' + data.alarms_count.toLocaleString() + '</b> 个警报，使用 ' + Math.round(data.rrd_memory_bytes / 1024 / 1024).toLocaleString() + ' MB 记忆体储存 ' + NETDATA.seconds4human(data.update_every * data.history, {space: '&nbsp;'}) + ' 的即时资料。<br/>&nbsp;<br/><b>netdata</b><br/>' + data.version.toString() + '</small></li>';
     sidebar += '</ul>';
     div.innerHTML = html;
     document.getElementById('sidebar').innerHTML = sidebar;
@@ -1935,7 +1873,7 @@ function loadJs(url, callback) {
         url: url,
         cache: true,
         dataType: "script",
-        xhrFields: { withCredentials: true } // required for the cookie
+        xhrFields: {withCredentials: true} // required for the cookie
     })
         .fail(function () {
             alert('Cannot load required JS library: ' + url);
@@ -2022,9 +1960,9 @@ function clipboardCopyBadgeEmbed(url) {
 // ----------------------------------------------------------------------------
 
 function alarmsUpdateModal() {
-    var active = '<h3>Raised Alarms</h3><table class="table">';
-    var all = '<h3>All Running Alarms</h3><div class="panel-group" id="alarms_all_accordion" role="tablist" aria-multiselectable="true">';
-    var footer = '<hr/><a href="https://github.com/netdata/netdata/tree/master/web/api/badges#netdata-badges" target="_blank">netdata badges</a> refresh automatically. Their color indicates the state of the alarm: <span style="color: #e05d44"><b>&nbsp;red&nbsp;</b></span> is critical, <span style="color:#fe7d37"><b>&nbsp;orange&nbsp;</b></span> is warning, <span style="color: #4c1"><b>&nbsp;bright green&nbsp;</b></span> is ok, <span style="color: #9f9f9f"><b>&nbsp;light grey&nbsp;</b></span> is undefined (i.e. no data or no status), <span style="color: #000"><b>&nbsp;black&nbsp;</b></span> is not initialized. You can copy and paste their URLs to embed them in any web page.<br/>netdata can send notifications for these alarms. Check <a href="https://github.com/netdata/netdata/blob/master/health/notifications/health_alarm_notify.conf" target="_blank">this configuration file</a> for more information.';
+    var active = '<h3>触发警报</h3><table class="table">';
+    var all = '<h3>所有作用中的警报</h3><div class="panel-group" id="alarms_all_accordion" role="tablist" aria-multiselectable="true">';
+    var footer = '<hr/><a href="https://github.com/netdata/netdata/tree/master/web/api/badges#netdata-badges" target="_blank">netdata badges</a> 会自动重新整理。不同颜色分表代表的警报状态：<span style="color: #e05d44"><b>&nbsp;红色&nbsp;</b></span> 表示重大，<span style="color:#fe7d37"><b>&nbsp;橘色&nbsp;</b></span> 表示警告，<span style="color: #4c1"><b>&nbsp;绿色&nbsp;</b></span> 表示良好，<span style="color: #9f9f9f"><b>&nbsp;灰色&nbsp;</b></span> 表示未定义 (例如无资料或无状态)，<span style="color: #000"><b>&nbsp;黑色&nbsp;</b></span> 表示尚未初始化。您可以复制这里的网址并将它们嵌入到任一个网页。<br/>netdata 能够发送这些警报通知。请参阅 <a href="https://github.com/netdata/netdata/blob/master/health/notifications/health_alarm_notify.conf">这个设定档</a> 了解更多资讯。';
 
     loadClipboard(function () {
     });
@@ -2037,8 +1975,8 @@ function alarmsUpdateModal() {
         if (data === null) {
             document.getElementById('alarms_active').innerHTML =
                 document.getElementById('alarms_all').innerHTML =
-                document.getElementById('alarms_log').innerHTML =
-                'failed to load alarm data!';
+                    document.getElementById('alarms_log').innerHTML =
+                        'failed to load alarm data!';
             return;
         }
 
@@ -2088,7 +2026,7 @@ function alarmsUpdateModal() {
 
             return '<code>' + alarm.lookup_method + '</code> '
                 + dimensions + ', of chart <code>' + alarm.chart + '</code>'
-                + ', starting <code>' + NETDATA.seconds4human(alarm.lookup_after + alarm.lookup_before, { space: '&nbsp;' }) + '</code> and up to <code>' + NETDATA.seconds4human(alarm.lookup_before, { space: '&nbsp;' }) + '</code>'
+                + ', starting <code>' + NETDATA.seconds4human(alarm.lookup_after + alarm.lookup_before, {space: '&nbsp;'}) + '</code> and up to <code>' + NETDATA.seconds4human(alarm.lookup_before, {space: '&nbsp;'}) + '</code>'
                 + ((alarm.lookup_options) ? (', with options <code>' + alarm.lookup_options.replace(/ /g, ',&nbsp;') + '</code>') : '')
                 + '.';
         }
@@ -2110,7 +2048,7 @@ function alarmsUpdateModal() {
             var badge_url = NETDATA.alarms.server + '/api/v1/badge.svg?chart=' + alarm.chart + '&alarm=' + alarm.name + '&refresh=auto';
 
             var action_buttons = '<br/>&nbsp;<br/>role: <b>' + alarm.recipient + '</b><br/>&nbsp;<br/>'
-                + '<div class="action-button ripple" title="click to scroll the dashboard to the chart of this alarm" data-toggle="tooltip" data-placement="bottom" onClick="scrollToChartAfterHidingModal(\'' + alarm.chart + '\', ' + alarm.last_status_change * 1000 + ', \'' + alarm.status + '\'); $(\'#alarmsModal\').modal(\'hide\'); return false;"><i class="fab fa-periscope"></i></div>'
+                + '<div class="action-button ripple" title="click to scroll the dashboard to the chart of this alarm" data-toggle="tooltip" data-placement="bottom" onClick="scrollToChartAfterHidingModal(\'' + alarm.chart + '\'); $(\'#alarmsModal\').modal(\'hide\'); return false;"><i class="fab fa-periscope"></i></div>'
                 + '<div class="action-button ripple" title="click to copy to the clipboard the URL of this badge" data-toggle="tooltip" data-placement="bottom" onClick="clipboardCopy(\'' + badge_url + '\'); return false;"><i class="far fa-copy"></i></div>'
                 + '<div class="action-button ripple" title="click to copy to the clipboard an auto-refreshing <code>embed</code> html element for this badge" data-toggle="tooltip" data-placement="bottom" onClick="clipboardCopyBadgeEmbed(\'' + badge_url + '\'); return false;"><i class="fas fa-copy"></i></div>';
 
@@ -2129,14 +2067,6 @@ function alarmsUpdateModal() {
                     + ((typeof alarm.calc !== 'undefined') ? ('<tr><td width="10%" style="text-align:right">calculation</td><td><span style="font-family: monospace;">' + alarm.calc + '</span></td></tr>') : '')
                     + ((chart.green !== null) ? ('<tr><td width="10%" style="text-align:right">green&nbsp;threshold</td><td><code>' + chart.green + ' ' + units + '</code></td></tr>') : '')
                     + ((chart.red !== null) ? ('<tr><td width="10%" style="text-align:right">red&nbsp;threshold</td><td><code>' + chart.red + ' ' + units + '</code></td></tr>') : '');
-            }
-
-            if (alarm.warn_repeat_every > 0) {
-                html += '<tr><td width="10%" style="text-align:right">repeat&nbsp;warning</td><td>' + NETDATA.seconds4human(alarm.warn_repeat_every) + '</td></tr>';
-            }
-
-            if (alarm.crit_repeat_every > 0) {
-                html += '<tr><td width="10%" style="text-align:right">repeat&nbsp;critical</td><td>' + NETDATA.seconds4human(alarm.crit_repeat_every) + '</td></tr>';
             }
 
             var delay = '';
@@ -2172,9 +2102,9 @@ function alarmsUpdateModal() {
             }
 
             html += '<tr><td width="10%" style="text-align:right">check&nbsp;every</td><td>' + NETDATA.seconds4human(alarm.update_every, {
-                space: '&nbsp;',
-                negative_suffix: ''
-            }) + '</td></tr>'
+                    space: '&nbsp;',
+                    negative_suffix: ''
+                }) + '</td></tr>'
                 + ((has_alarm === true) ? ('<tr><td width="10%" style="text-align:right">execute</td><td><span style="font-family: monospace;">' + alarm.exec + '</span>' + delay + '</td></tr>') : '')
                 + '<tr><td width="10%" style="text-align:right">source</td><td><span style="font-family: monospace;">' + alarm.source + '</span></td></tr>'
                 + '</table></td></tr>';
@@ -2219,7 +2149,7 @@ function alarmsUpdateModal() {
             // not found - this should never happen!
             if (typeof chart === 'undefined') {
                 console.log('WARNING: alarm ' + x + ' is linked to chart ' + alarm.chart + ', which is not found in the list of chart got from the server.');
-                chart = { priority: 9999999 };
+                chart = {priority: 9999999};
             }
             else if (typeof chart.menu !== 'undefined' && typeof chart.submenu !== 'undefined')
             // the family based on the chart
@@ -2333,7 +2263,7 @@ function alarmsUpdateModal() {
             $('#alarm_all_' + id.toString()).html('');
         });
 
-        document.getElementById('alarms_log').innerHTML = '<h3>Alarm Log</h3><table id="alarms_log_table"></table>';
+        document.getElementById('alarms_log').innerHTML = '<h3>警报记录</h3><table id="alarms_log_table"></table>';
 
         loadBootstrapTable(function () {
             $('#alarms_log_table').bootstrapTable({
@@ -2351,33 +2281,21 @@ function alarmsUpdateModal() {
                 exportOptions: {
                     fileName: 'netdata_alarm_log'
                 },
-                onClickRow: function (row, $element,field) {
-                    void (field);
-                    void ($element);
-                    let main_url;
-                    let common_url = "&host=" + encodeURIComponent(row['hostname']) + "&chart=" + encodeURIComponent(row['chart']) + "&family=" + encodeURIComponent(row['family']) + "&alarm=" + encodeURIComponent(row['name']) + "&alarm_unique_id=" + row['unique_id'] + "&alarm_id=" + row['alarm_id'] + "&alarm_event_id=" +  row['alarm_event_id'] + "&alarm_when=" + row['when'];
-                    if (NETDATA.registry.isUsingGlobalRegistry() && NETDATA.registry.machine_guid != null) {
-                        main_url = "https://netdata.cloud/alarms/redirect?agentID=" + NETDATA.registry.machine_guid + common_url;
-                    } else {
-                        main_url = NETDATA.registry.server + "/goto-host-from-alarm.html?" + common_url ;
-                    }
-                    window.open(main_url,"_blank");
-                },
                 rowStyle: function (row, index) {
                     void (index);
 
                     switch (row.status) {
                         case 'CRITICAL':
-                            return { classes: 'danger' };
+                            return {classes: 'danger'};
                             break;
                         case 'WARNING':
-                            return { classes: 'warning' };
+                            return {classes: 'warning'};
                             break;
                         case 'UNDEFINED':
-                            return { classes: 'info' };
+                            return {classes: 'info'};
                             break;
                         case 'CLEAR':
-                            return { classes: 'success' };
+                            return {classes: 'success'};
                             break;
                     }
                     return {};
@@ -2391,7 +2309,7 @@ function alarmsUpdateModal() {
                 columns: [
                     {
                         field: 'when',
-                        title: 'Event Date',
+                        title: '事件日期',
                         valign: 'middle',
                         titleTooltip: 'The date and time the even took place',
                         formatter: function (value, row, index) {
@@ -2405,7 +2323,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'hostname',
-                        title: 'Host',
+                        title: '主机',
                         valign: 'middle',
                         titleTooltip: 'The host that generated this event',
                         align: 'center',
@@ -2414,7 +2332,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'unique_id',
-                        title: 'Unique ID',
+                        title: '唯一 ID',
                         titleTooltip: 'The host unique ID for this event',
                         formatter: function (value, row, index) {
                             void (row);
@@ -2428,7 +2346,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'alarm_id',
-                        title: 'Alarm ID',
+                        title: '警报 ID',
                         titleTooltip: 'The ID of the alarm that generated this event',
                         formatter: function (value, row, index) {
                             void (row);
@@ -2442,7 +2360,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'alarm_event_id',
-                        title: 'Alarm Event ID',
+                        title: '警报事件 ID',
                         titleTooltip: 'The incremental ID of this event for the given alarm',
                         formatter: function (value, row, index) {
                             void (row);
@@ -2456,7 +2374,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'chart',
-                        title: 'Chart',
+                        title: '图表',
                         titleTooltip: 'The chart the alarm is attached to',
                         align: 'center',
                         valign: 'middle',
@@ -2474,7 +2392,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'name',
-                        title: 'Alarm',
+                        title: '警报',
                         titleTooltip: 'The alarm name that generated this event',
                         formatter: function (value, row, index) {
                             void (row);
@@ -2533,7 +2451,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'units',
-                        title: 'Units',
+                        title: '单位',
                         titleTooltip: 'The units of the value of the alarm',
                         align: 'left',
                         valign: 'middle',
@@ -2542,7 +2460,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'old_status',
-                        title: 'Old Status',
+                        title: '先前状态',
                         titleTooltip: 'The status of the alarm, just before this event',
                         align: 'center',
                         valign: 'middle',
@@ -2551,7 +2469,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'status',
-                        title: 'Status',
+                        title: '状态',
                         titleTooltip: 'The status of the alarm, that was set due to this event',
                         align: 'center',
                         valign: 'middle',
@@ -2565,7 +2483,7 @@ function alarmsUpdateModal() {
                         formatter: function (value, row, index) {
                             void (row);
                             void (index);
-                            return NETDATA.seconds4human(value, { negative_suffix: '', space: ' ', now: 'no time' });
+                            return NETDATA.seconds4human(value, {negative_suffix: '', space: ' ', now: 'no time'});
                         },
                         align: 'center',
                         valign: 'middle',
@@ -2579,7 +2497,7 @@ function alarmsUpdateModal() {
                         formatter: function (value, row, index) {
                             void (row);
                             void (index);
-                            return NETDATA.seconds4human(value, { negative_suffix: '', space: ' ', now: 'no time' });
+                            return NETDATA.seconds4human(value, {negative_suffix: '', space: ' ', now: 'no time'});
                         },
                         align: 'center',
                         valign: 'middle',
@@ -2711,7 +2629,7 @@ function alarmsUpdateModal() {
                             void (row);
                             void (index);
 
-                            return NETDATA.seconds4human(value, { negative_suffix: '', space: ' ', now: 'no time' });
+                            return NETDATA.seconds4human(value, {negative_suffix: '', space: ' ', now: 'no time'});
                         },
                         align: 'center',
                         valign: 'middle',
@@ -2734,7 +2652,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'info',
-                        title: 'Description',
+                        title: '说明',
                         titleTooltip: 'A short description of the alarm',
                         align: 'center',
                         valign: 'middle',
@@ -2743,7 +2661,7 @@ function alarmsUpdateModal() {
                     },
                     {
                         field: 'source',
-                        title: 'Alarm Source',
+                        title: '警报来源',
                         titleTooltip: 'The source of configuration of the alarm',
                         align: 'center',
                         valign: 'middle',
@@ -2782,7 +2700,6 @@ function initializeDynamicDashboardWithData(data) {
         options.hostname = data.hostname;
         options.data = data;
         options.version = data.version;
-        options.release_channel = data.release_channel;
         netdataDashboard.os = data.os;
 
         if (typeof data.hosts !== 'undefined') {
@@ -2790,7 +2707,7 @@ function initializeDynamicDashboardWithData(data) {
         }
 
         // update the dashboard hostname
-        document.getElementById('hostname').innerHTML = '<span id="hostnametext">' + options.hostname + ((netdataSnapshotData !== null) ? ' (snap)' : '').toString() + '</span>&nbsp;&nbsp;<strong class="caret">';
+        document.getElementById('hostname').innerHTML = options.hostname + ((netdataSnapshotData !== null) ? ' (snap)' : '').toString() + '&nbsp;&nbsp;<strong class="caret">';
         document.getElementById('hostname').href = NETDATA.serverDefault;
         document.getElementById('netdataVersion').innerHTML = options.version;
 
@@ -2803,7 +2720,7 @@ function initializeDynamicDashboardWithData(data) {
         }
 
         // update the dashboard title
-        document.title = options.hostname + ' netdata dashboard';
+        document.title = options.hostname + ' netdata 仪表板';
 
         // close the splash screen
         $("#loadOverlay").css("display", "none");
@@ -2915,100 +2832,44 @@ function versionsMatch(v1, v2) {
     if (v1 == v2) {
         return true;
     } else {
-        let s1 = v1.split('.');
-        let s2 = v2.split('.');
-        // Check major version
-        let n1 = parseInt(s1[0].substring(1, 2), 10);
-        let n2 = parseInt(s2[0].substring(1, 2), 10);
-        if (n1 < n2) return false;
-        else if (n1 > n2) return true;
-
-        // Check minor version
-        n1 = parseInt(s1[1], 10);
-        n2 = parseInt(s2[1], 10);
-        if (n1 < n2) return false;
-        else if (n1 > n2) return true;
-
-        // Split patch: format could be e.g. 0-22-nightly
-        s1 = s1[2].split('-');
-        s2 = s2[2].split('-');
-
-        n1 = parseInt(s1[0], 10);
-        n2 = parseInt(s2[0], 10);
-        if (n1 < n2) return false;
-        else if (n1 > n2) return true;
-
-        n1 = (s1.length > 1) ? parseInt(s1[1], 10) : 0;
-        n2 = (s2.length > 1) ? parseInt(s2[1], 10) : 0;
-        if (n1 < n2) return false;
-        else return true;
+        var s1=v1.split('-');
+        var s2=v2.split('-');
+        if (s1.length !== s2.length) return false;
+        if (s1.length === 4) s1.pop();
+        if (s2.length === 4) s2.pop();
+        return (s1.join('-') === s2.join('-'));
     }
 }
 
 function getGithubLatestVersion(callback) {
-    versionLog('Downloading latest version id from github...');
+    versionLog('正在从 github 下载最新版本 ID...');
 
     $.ajax({
-        url: 'https://api.github.com/repos/netdata/netdata/releases/latest',
+        url: 'https://api.github.com/repositories/10744183/contents/packaging/version?ref=master',
         async: true,
         cache: false
     })
         .done(function (data) {
-            data = data.tag_name.replace(/(\r\n|\n|\r| |\t)/gm, "");
-            versionLog('Latest stable version from github is ' + data);
+            data = atob(data.content).replace(/(\r\n|\n|\r| |\t)/gm, "");
+            versionLog('从 github 取得最新版本是 ' + data);
             callback(data);
         })
         .fail(function () {
-            versionLog('Failed to download the latest stable version id from github!');
+            versionLog('从 github 下载最新版本 ID 失败。');
             callback(null);
         });
 }
-
-function getGCSLatestVersion(callback) {
-    versionLog('Downloading latest version id from GCS...');
-    $.ajax({
-        url: "https://www.googleapis.com/storage/v1/b/netdata-nightlies/o/latest-version.txt",
-        async: true,
-        cache: false
-    })
-        .done(function (response) {
-            $.ajax({
-                url: response.mediaLink,
-                async: true,
-                cache: false
-            })
-                .done(function (data) {
-                    data = data.replace(/(\r\n|\n|\r| |\t)/gm, "");
-                    versionLog('Latest nightly version from GCS is ' + data);
-                    callback(data);
-                })
-                .fail(function (xhr, textStatus, errorThrown) {
-                    versionLog('Failed to download the latest nightly version id from GCS!');
-                    callback(null);
-                });
-        })
-        .fail(function (xhr, textStatus, errorThrown) {
-            versionLog('Failed to download the latest nightly version from GCS!');
-            callback(null);
-        });
-}
-
 
 function checkForUpdateByVersion(force, callback) {
-    if (options.release_channel === 'stable') {
-        getGithubLatestVersion(function (sha2) {
+    getGithubLatestVersion(function (sha2) {
             callback(options.version, sha2);
-        });
-    } else {
-        getGCSLatestVersion(function (sha2) {
-            callback(options.version, sha2);
-        });
-    }
+    });
+
     return null;
 }
 
 function notifyForUpdate(force) {
-    versionLog('<p>checking for updates...</p>');
+    versionLog('<p>正在检查更新...</p>');
 
     var now = Date.now();
 
@@ -3032,13 +2893,13 @@ function notifyForUpdate(force) {
 
         if (sha1 === null) {
             save = false;
-            versionLog('<p><big>Failed to get your netdata version!</big></p><p>You can always get the latest netdata from <a href="https://github.com/netdata/netdata" target="_blank">its github page</a>.</p>');
+            versionLog('<p><big>取得您的 netdata 版本失败！</big></p><p>You can always get the latest netdata from <a href="https://github.com/netdata/netdata" target="_blank">its github page</a>.</p>');
         } else if (sha2 === null) {
             save = false;
-            versionLog('<p><big>Failed to get the latest netdata version.</big></p><p>You can always get the latest netdata from <a href="https://github.com/netdata/netdata" target="_blank">its github page</a>.</p>');
+            versionLog('<p><big>从 github 取得 netdata 最新版本失败。</big></p><p>您也可以从 <a href="https://github.com/netdata/netdata" target="_blank"> github</a> 取得最新 netdata 版本。</p>');
         } else if (versionsMatch(sha1, sha2)) {
             save = true;
-            versionLog('<p><big>You already have the latest netdata!</big></p><p>No update yet?<br/>We probably need some motivation to keep going on!</p><p>If you haven\'t already, <a href="https://github.com/netdata/netdata" target="_blank">give netdata a <b><i class="fas fa-star"></i></b> at its github page</a>.</p>');
+            versionLog('<p><big>您已经是最新版本的 netdata！</big></p><p>还没有更新？<br/>或许，我们还需要一些动力继续前进！</p><p>如果您还没有做好更新的准备，请您 <a href="https://github.com/netdata/netdata" target="_blank">到 github 给 netdata <b><i class="fas fa-star"></i></b></a>。</p>');
         } else {
             save = true;
             var compare = 'https://docs.netdata.cloud/changelog/';
@@ -3188,7 +3049,7 @@ var snapshotOptions = {
             bytes_per_point_disk: 1.9,
 
             compress: function (s) {
-                return btoa(pako.deflate(s, { to: 'string' }));
+                return btoa(pako.deflate(s, {to: 'string'}));
             },
 
             compressed_length: function (s) {
@@ -3196,7 +3057,7 @@ var snapshotOptions = {
             },
 
             uncompress: function (s) {
-                return pako.inflate(atob(s), { to: 'string' });
+                return pako.inflate(atob(s), {to: 'string'});
             }
         },
 
@@ -3205,7 +3066,7 @@ var snapshotOptions = {
             bytes_per_point_disk: 3.2,
 
             compress: function (s) {
-                return pako.deflate(s, { to: 'string' });
+                return pako.deflate(s, {to: 'string'});
             },
 
             compressed_length: function (s) {
@@ -3213,7 +3074,7 @@ var snapshotOptions = {
             },
 
             uncompress: function (s) {
-                return pako.inflate(s, { to: 'string' });
+                return pako.inflate(s, {to: 'string'});
             }
         },
 
@@ -3993,21 +3854,9 @@ function scrollDashboardTo() {
 
 var modalHiddenCallback = null;
 
-function scrollToChartAfterHidingModal(chart, alarmDate, alarmStatus) {
+function scrollToChartAfterHidingModal(chart) {
     modalHiddenCallback = function () {
-        NETDATA.alarms.scrollToChart(chart, alarmDate);
-
-        if (['WARNING', 'CRITICAL'].includes(alarmStatus)) {
-            const currentChartState = NETDATA.options.targets.find(
-              (chartState) => chartState.id === chart,
-            )
-            const twoMinutes = 2 * 60 * 1000
-            NETDATA.globalPanAndZoom.setMaster(
-              currentChartState,
-              alarmDate - twoMinutes,
-              alarmDate + twoMinutes,
-            )
-        }
+        NETDATA.alarms.scrollToChart(chart);
     };
 }
 
@@ -4018,7 +3867,7 @@ function enableTooltipsAndPopovers() {
         animated: 'fade',
         trigger: 'hover',
         html: true,
-        delay: { show: 500, hide: 0 },
+        delay: {show: 500, hide: 0},
         container: 'body'
     });
     $('[data-toggle="popover"]').popover();
@@ -4096,7 +3945,7 @@ function runOnceOnDashboardWithjQuery() {
 
                 // scroll to the position we had open before the modal
                 $('html, body')
-                    .animate({ scrollTop: scrollPos }, 0);
+                    .animate({scrollTop: scrollPos}, 0);
 
                 // unpause netdata, if we paused it
                 if (netdata_paused_on_modal === true) {
@@ -4124,14 +3973,6 @@ function runOnceOnDashboardWithjQuery() {
 
     // ------------------------------------------------------------------------
     // sidebar / affix
-
-    if (shouldShowSignInBanner()) {
-        const el = document.getElementById("sign-in-banner");
-        if (el) {
-            el.style.display = "initial";
-            el.classList.add(`theme-${netdataTheme}`);
-        }
-    }
 
     $('#sidebar')
         .affix({
@@ -4262,8 +4103,8 @@ function runOnceOnDashboardWithjQuery() {
         .on('hidden.bs.modal', function () {
             document.getElementById('alarms_active').innerHTML =
                 document.getElementById('alarms_all').innerHTML =
-                document.getElementById('alarms_log').innerHTML =
-                'loading...';
+                    document.getElementById('alarms_log').innerHTML =
+                        'loading...';
         });
 
     // ------------------------------------------------------------------------
@@ -4313,7 +4154,7 @@ function runOnceOnDashboardWithjQuery() {
                 if ($this.hasClass('less')) {
                     $this.removeClass('less');
                     $this.html(config.moreText);
-                    $this.parent().prev().animate({ 'height': '0' + '%' }, 0, function () {
+                    $this.parent().prev().animate({'height': '0' + '%'}, 0, function () {
                         $this.parent().prev().prev().show();
                     }).hide(0, function () {
                         config.onLess();
@@ -4321,7 +4162,7 @@ function runOnceOnDashboardWithjQuery() {
                 } else {
                     $this.addClass('less');
                     $this.html(config.lessText);
-                    $this.parent().prev().animate({ 'height': '100' + '%' }, 0, function () {
+                    $this.parent().prev().animate({'height': '100' + '%'}, 0, function () {
                         $this.parent().prev().prev().hide();
                     }).show(0, function () {
                         config.onMore();
@@ -4450,6 +4291,12 @@ function finalizePage() {
         // do not to give errors on netdata demo servers for 60 seconds
         NETDATA.options.current.retries_on_data_failures = 60;
 
+        if (urlOptions.nowelcome !== true) {
+            setTimeout(function () {
+                $('#welcomeModal').modal();
+            }, 1000);
+        }
+
         // google analytics when this is used for the home page of the demo sites
         // this does not run on user's installations
         setTimeout(function () {
@@ -4488,12 +4335,6 @@ function finalizePage() {
         NETDATA.globalPanAndZoom.setMaster(NETDATA.options.targets[0], netdataSnapshotData.after_ms, netdataSnapshotData.before_ms);
     }
 
-    //if (urlOptions.nowelcome !== true) {
-    //    setTimeout(function () {
-    //        $('#welcomeModal').modal();
-    //    }, 2000);
-    //}
-
     // var netdataEnded = performance.now();
     // console.log('start up time: ' + (netdataEnded - netdataStarted).toString() + ' ms');
 }
@@ -4529,7 +4370,7 @@ var netdataPrepCallback = function () {
     });
 
     NETDATA.requiredJs.push({
-        url: NETDATA.serverStatic + 'dashboard_info.js?v20181019-1',
+        url: NETDATA.serverStatic + 'dashboard_info.js',
         async: false,
         isAlreadyLoaded: function () {
             return false;
@@ -4644,7 +4485,7 @@ function getCloudAccountAgents() {
     if (!isSignedIn()) {
         return [];
     }
-
+    
     return fetch(
         `${NETDATA.registry.cloudBaseURL}/api/v1/accounts/${cloudAccountID}/agents`,
         {
@@ -4654,7 +4495,7 @@ function getCloudAccountAgents() {
                 "Authorization": `Bearer ${cloudToken}`
             }
         }
-    ).then((response) => {
+    ).then((response)  => {
         if (!response.ok) {
             throw Error("Cannot fetch known accounts");
         }
@@ -4674,36 +4515,6 @@ function getCloudAccountAgents() {
                 "alternate_urls": a.urls
             }
         })
-    }).catch(function (error) {
-        console.log(error);
-        return null;
-    });
-}
-
-/** Updates the lastAccessTime and accessCount properties of the agent for the account. */
-function touchAgent() {
-    if (!isSignedIn()) {
-        return [];
-    }
-
-    const touchUrl = `${NETDATA.registry.cloudBaseURL}/api/v1/agents/${NETDATA.registry.machine_guid}/touch?account_id=${cloudAccountID}`;
-    return fetch(
-        touchUrl,
-        {
-            method: "post",
-            body: "",
-            mode: "cors",
-            headers: {
-                "Authorization": `Bearer ${cloudToken}`
-            }
-        }
-    ).then((response) => {
-        if (!response.ok) {
-            throw Error("Cannot touch agent" + JSON.stringify(response));
-        }
-        return response.json();
-    }).then((payload) => {
-
     }).catch(function (error) {
         console.log(error);
         return null;
@@ -4733,7 +4544,7 @@ function postCloudAccountAgents(agentsToSync) {
         "agents": agents,
         "merge": false,
     };
-
+    
     return fetch(
         `${NETDATA.registry.cloudBaseURL}/api/v1/accounts/${cloudAccountID}/agents`,
         {
@@ -4761,7 +4572,7 @@ function postCloudAccountAgents(agentsToSync) {
                 "url": a.urls[0],
                 "alternate_urls": a.urls
             }
-        })
+        })        
     });
 }
 
@@ -4804,26 +4615,6 @@ function signInDidClick(e) {
     signIn();
 }
 
-function shouldShowSignInBanner() {
-    if (isSignedIn()) {
-        return false;
-    }
-
-    return localStorage.getItem("signInBannerClosed") != "true";
-}
-
-function closeSignInBanner() {
-    localStorage.setItem("signInBannerClosed", "true");
-    const el = document.getElementById("sign-in-banner");
-    if (el) {
-        el.style.display = "none";
-    }
-}
-
-function closeSignInBannerDidClick(e) {
-    closeSignInBanner();
-}
-
 function signOutDidClick(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -4838,7 +4629,7 @@ function updateMyNetdataAfterFilterChange() {
 
     if (options.hosts.length > 1) {
         const streamedEl = document.getElementById("my-netdata-menu-streamed")
-        streamedEl.innerHTML = renderStreamedHosts(options);
+        streamedEl.innerHTML = renderStreamedHosts(options);    
     }
 }
 
@@ -4853,7 +4644,7 @@ function myNetdataFilterDidChange(e) {
     const inputEl = e.target;
     setTimeout(() => {
         myNetdataMenuFilterValue = inputEl.value;
-        updateMyNetdataAfterFilterChange();
+        updateMyNetdataAfterFilterChange();        
     }, 1);
 }
 
@@ -4864,9 +4655,9 @@ function myNetdataFilterClearDidClick(e) {
     const inputEl = document.getElementById("my-netdata-menu-filter-input");
     inputEl.value = "";
     myNetdataMenuFilterValue = "";
-
-    updateMyNetdataAfterFilterChange();
-
+    
+    updateMyNetdataAfterFilterChange();        
+    
     inputEl.focus();
 }
 
@@ -4885,7 +4676,7 @@ function clearCloudLocalStorageItems() {
 }
 
 function signIn() {
-    const url = `${NETDATA.registry.cloudBaseURL}/account/sign-in-agent?id=${NETDATA.registry.machine_guid}&name=${encodeURIComponent(NETDATA.registry.hostname)}&origin=${encodeURIComponent(window.location.origin + "/")}`;
+    const url = `${NETDATA.registry.cloudBaseURL}/account/sign-in-agent?origin=${encodeURIComponent(window.location.origin + "/")}`;
     window.open(url);
 }
 
@@ -4905,15 +4696,10 @@ function renderAccountUI() {
         container.removeAttribute("data-placement");
         container.innerHTML = (
             `<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="amc-account-name"></span> <strong class="caret"></strong></a>
-            <ul id="cloud-menu" class="dropdown-menu scrollable-menu inpagemenu" role="menu">   
-                <li>
-                    <a onclick="openAuthenticatedUrl('console.html');" target="_blank" class="btn">
-                    <i class="fas fa-tv"></i>&nbsp;&nbsp;<span class="hidden-sm hidden-md">Nodes<sup class="beta"> beta</sup></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="btn" onclick="signOutDidClick(event); return false">
-                    <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<span class="hidden-sm hidden-md">Sign Out</span>
+            <ul id="cloud-menu" class="dropdown-menu scrollable-menu inpagemenu" role="menu">
+                    <li>
+                        <a href="#" class="btn" onclick="signOutDidClick(event); return false">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<span class="hidden-sm hidden-md">Sign Out</span>
                     </a>
                 </li>
             </ul>`
@@ -4923,8 +4709,8 @@ function renderAccountUI() {
         container.setAttribute("data-original-title", "sign in");
         container.setAttribute("data-placement", "bottom");
         container.innerHTML = (
-            `<a href="#" class="btn sign-in-btn theme-${netdataTheme}" onclick="signInDidClick(event); return false">
-                <i class="fas fa-sign-in-alt"></i>&nbsp;<span class="hidden-sm hidden-md">Sign In</span>
+            `<a href="#" class="btn" onclick="signInDidClick(event); return false">
+                <i class="fas fa-sign-in-alt"></i>&nbsp;<span class="hidden-sm hidden-md">登入</span>
             </a>`
         )
     }
@@ -4946,7 +4732,6 @@ function handleMessage(e) {
 }
 
 function handleSignInMessage(e) {
-    closeSignInBanner();
     localStorage.setItem("cloud.baseURL", NETDATA.registry.cloudBaseURL);
 
     cloudAccountID = e.data.accountID;
@@ -4954,14 +4739,10 @@ function handleSignInMessage(e) {
     cloudToken = e.data.token;
 
     netdataRegistryCallback(registryAgents);
-    if (e.data.redirectURI && !window.location.href.includes(e.data.redirectURI)) {
-        // lgtm false-positive - redirectURI does not come from user input, but from iframe callback
-        window.location.replace(e.data.redirectURI); // lgtm[js/client-side-unvalidated-url-redirection]
-    }
 }
 
 function handleSignOutMessage(e) {
-    clearCloudVariables();
+    clearCloudVariables();    
     renderAccountUI();
     renderMyNetdataMenu(registryAgents);
 }
@@ -5035,17 +4816,17 @@ function explicitlySyncAgents() {
     $("#syncRegistryModal").modal("hide");
 
     const json = localStorage.getItem("cloud.sync");
-    const sync = json ? JSON.parse(json) : {};
+    const sync = json ? JSON.parse(json): {};
     delete sync[cloudAccountID];
     localStorage.setItem("cloud.sync", JSON.stringify(sync));
-
+    
     NETDATA.registry.init();
 }
 
 function syncAgents(callback) {
     const json = localStorage.getItem("cloud.sync");
-    const sync = json ? JSON.parse(json) : {};
-
+    const sync = json ? JSON.parse(json): {};
+    
     const currentAgent = {
         guid: NETDATA.registry.machine_guid,
         name: NETDATA.registry.hostname,
@@ -5053,30 +4834,30 @@ function syncAgents(callback) {
         alternate_urls: [NETDATA.serverDefault],
     }
 
-    const localAgents = sync[cloudAccountID]
-        ? [currentAgent]
+    const localAgents = sync[cloudAccountID] 
+        ? [currentAgent] 
         : registryAgents.concat([currentAgent]);
-
+    
     console.log("Checking if sync is needed.", localAgents);
 
     const agentsToSync = mergeAgents(cloudAgents, localAgents);
 
-    if ((!sync[cloudAccountID]) || agentsToSync) {
+    if ((!sync[cloudAccountID]) || agentsToSync)  {
         sync[cloudAccountID] = new Date().getTime();
         localStorage.setItem("cloud.sync", JSON.stringify(sync));
     }
 
     if (agentsToSync) {
         console.log("Synchronizing with netdata.cloud.");
-
+        
         postCloudAccountAgents(agentsToSync).then((agents) => {
             // TODO: clear syncTime on error!
             cloudAgents = agents;
             callback(cloudAgents);
         });
 
-        return
-    }
+        return        
+    } 
 
     callback(cloudAgents);
 }
@@ -5115,7 +4896,6 @@ function initCloud() {
         cloudSSOInit();
     }
 
-    touchAgent();
     renderAccountUI();
 }
 
@@ -5125,10 +4905,10 @@ function netdataRegistryCallback(machinesArray) {
 
     initCloud();
 
-    registryAgents = machinesArray;
+    registryAgents = machinesArray;  
 
     if (isSignedIn()) {
-        // We call getCloudAccountAgents() here because it requires that
+        // We call getCloudAccountAgents() here because it requires that 
         // NETDATA.registry is initialized.
         clearMyNetdataMenu();
         getCloudAccountAgents().then((agents) => {
@@ -5136,17 +4916,17 @@ function netdataRegistryCallback(machinesArray) {
                 errorMyNetdataMenu();
                 return;
             }
-            cloudAgents = agents;
+            cloudAgents = agents; 
             syncAgents((agents) => {
                 const agentsMap = {}
                 for (const agent of agents) {
                     agentsMap[agent.guid] = agent;
                 }
-
+    
                 NETDATA.registry.machines = agentsMap;
                 NETDATA.registry.machines_array = agents;
-
-                renderMyNetdataMenu(agents);
+    
+                renderMyNetdataMenu(agents);    
             });
         });
     } else {
@@ -5154,8 +4934,8 @@ function netdataRegistryCallback(machinesArray) {
     }
 };
 
-// If we know the cloudBaseURL and agentID from local storage render (eagerly)
-// the account ui before receiving the definitive response from the web server.
+// If we know the cloudBaseURL and agentID from local storage render (eagerly) 
+// the account ui before receiving the definitive response from the web server. 
 // This improves the perceived performance.
 function tryFastInitCloud() {
     const baseURL = localStorage.getItem("cloud.baseURL");
@@ -5165,15 +4945,15 @@ function tryFastInitCloud() {
         NETDATA.registry.cloudBaseURL = baseURL;
         NETDATA.registry.machine_guid = agentID;
         NETDATA.registry.isCloudEnabled = true;
-
+    
         initCloud();
     }
 }
 
 function initializeApp() {
-    window.addEventListener("message", handleMessage, false);
+    window.addEventListener("message", handleMessage, false);    
 
-    //    tryFastInitCloud();
+//    tryFastInitCloud();
 }
 
 if (document.readyState === "complete") {
@@ -5183,5 +4963,5 @@ if (document.readyState === "complete") {
         if (document.readyState === "complete") {
             initializeApp();
         }
-    });
+    })
 }
